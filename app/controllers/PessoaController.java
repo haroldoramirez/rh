@@ -1,13 +1,14 @@
 package controllers;
 
-import models.Colaborador;
+import models.Pessoa;
+import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
 
-public class ColaboradorController extends Controller {
+public class PessoaController extends Controller {
 
     @Inject
     FormFactory formFactory;
@@ -16,7 +17,8 @@ public class ColaboradorController extends Controller {
      * @return noticia form if auth OK or not authorized
      */
     public Result telaNovo() {
-        return ok(views.html.colaboradores.create.render());
+        Form<Pessoa> pessoaForm = formFactory.form(Pessoa.class);
+        return ok(views.html.colaboradores.create.render(pessoaForm));
     }
 
     /**
@@ -48,8 +50,8 @@ public class ColaboradorController extends Controller {
      * @return a render view to inform OK
      */
     public Result inserir() {
-        Colaborador colaborador = formFactory.form(Colaborador.class).bindFromRequest().get();
-        colaborador.save();
+        Pessoa pessoa = formFactory.form(Pessoa.class).bindFromRequest().get();
+        pessoa.save();
         return created(views.html.mensagens.cadastrado.render());
 
     }
@@ -73,5 +75,4 @@ public class ColaboradorController extends Controller {
     public Result remover(Long id) {
         return TODO;
     }
-
 }
