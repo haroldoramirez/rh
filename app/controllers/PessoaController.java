@@ -1,12 +1,15 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import models.Pessoa;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class PessoaController extends Controller {
 
@@ -25,7 +28,18 @@ public class PessoaController extends Controller {
      * @return render a detail form with a noticia data
      */
     public Result telaDetalhe(Long id) {
-        return ok(views.html.colaboradores.detail.render());
+        try {
+            Pessoa pessoa = Ebean.find(Pessoa.class, id);
+
+            if (pessoa == null) {
+                return notFound(views.html.mensagens.erro.render());
+            }
+
+            return ok(views.html.colaboradores.detail.render(pessoa));
+        } catch (Exception e) {
+            Logger.error(e.toString());
+            return badRequest(views.html.mensagens.erro.render());
+        }
     }
 
     /**
@@ -41,7 +55,13 @@ public class PessoaController extends Controller {
      * @return a list of all noticias in a render template
      */
     public Result telaLista() {
-        return ok(views.html.colaboradores.list.render());
+        try {
+            List<Pessoa> pessoas = Ebean.find(Pessoa.class).findList();
+            return ok(views.html.colaboradores.list.render(pessoas, ""));
+        } catch (Exception e) {
+            Logger.error(e.toString());
+            return badRequest(views.html.mensagens.erro.render());
+        }
     }
 
     /**
