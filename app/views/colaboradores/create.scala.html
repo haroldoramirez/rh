@@ -1,0 +1,93 @@
+@views.html.main("AdminRH - Cadastro Colaborador") {
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Cadastro
+            <small>Colaborador</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="@routes.HomeController.inicio"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="@routes.ColaboradorController.telaLista"><i class="fa fa-users"></i> Colaboradores</a></li>
+            <li class="active">Cadastro</li>
+        </ol>
+    </section>
+
+        <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Informações Pessoais</h3>
+                    </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                    <form role="form" action="@routes.ColaboradorController.inserir" method="post">
+                        <div class="box-body">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="inputNome">Nome:</label>
+                                    <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Entre com o nome">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="inputTelefone">Telefone:</label>
+                                    <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="Entre com o telefone">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="inputCpf">CPF:</label>
+                                    <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="Entre com o CPF">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="inputEmail">Email:</label>
+                                    <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Entre com o email">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="inputCargo">Cargo:</label>
+                                    <input type="text" class="form-control" id="inputCargo" name="cargo" placeholder="Entre com o cargo">
+                                </div>
+                            </div>
+                                <!-- Date -->
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Data Admissão:</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input autocomplete="off" name="dataAdmissao" type="text" class="form-control pull-right" id="datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-success">Cadastrar</button>
+                            <a href="@routes.ColaboradorController.telaLista" type="reset" class="btn btn-default">Voltar</a>
+                        </div>
+                    </form>
+                </div>
+                    <!-- /.box -->
+            </div>
+                <!-- /.col -->
+        </div>
+            <!-- /.row -->
+    </section>
+        <!-- /.content -->
+}
+
+<script type="text/javascript">
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+</script>

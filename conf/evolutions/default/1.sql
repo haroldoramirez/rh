@@ -4,15 +4,18 @@
 # --- !Ups
 
 create table colaborador (
-  id                            bigint not null,
+  id                            bigserial not null,
   nome                          varchar(255),
+  telefone                      varchar(255),
+  cpf                           varchar(255),
+  email                         varchar(255),
+  cargo                         varchar(255),
+  data_admissao                 date,
   constraint pk_colaborador primary key (id)
 );
-create sequence colaborador_seq;
 
 
 # --- !Downs
 
-drop table if exists colaborador;
-drop sequence if exists colaborador_seq;
+drop table if exists colaborador cascade;
 
