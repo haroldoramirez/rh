@@ -27,7 +27,7 @@
             <!-- Theme style -->
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("bower_components/AdminLTE/dist/css/AdminLTE.min.css")">
             <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("bower_components/AdminLTE/dist/css/skins/skin-blue-light.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("bower_components/AdminLTE/dist/css/skins/skin-blue.css")">
             <!-- iCheck -->
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("bower_components/AdminLTE/plugins/iCheck/flat/blue.css")">
             <!-- Morris chart -->
@@ -50,7 +50,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
     </head>
-    <body class="sidebar-mini wysihtml5-supported skin-blue-light">
+    <body class="sidebar-mini wysihtml5-supported skin-blue">
         <div class="wrapper">
             <header class="main-header">
                     <!-- Logo -->
@@ -107,9 +107,21 @@
                 <section class="sidebar">
                         <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li class="header">Navegação Principal</li>
+                        <li @if(request.uri == "/"){ class="active" }>
+                            <a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> <span>Home</span></a>
+                        </li>
+                        <li class="header">CADASTROS</li>
                         <li @if(request.path.startsWith("/colaborador")){ class="active" }>
                             <a href="@routes.PessoaController.telaLista"><i class="fa fa-users"></i> <span>Colaboradores</span></a>
+                        </li>
+                        <li @if(request.path.startsWith("/area")){ class="active" }>
+                            <a href="@routes.AreaController.telaLista"><i class="fa fa-building"></i> <span>Áreas</span></a>
+                        </li>
+                        <li>
+                            <a href=""><i class="fa fa-user-md"></i> <span>Cargos</span></a>
+                        </li>
+                        <li>
+                            <a href=""><i class="fa fa-balance-scale"></i> <span>Benefícios</span></a>
                         </li>
                     </ul>
                 </section>
@@ -118,7 +130,7 @@
 
                 <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
-            @content
+                @content
             </div>
 
                 <!-- /.content-wrapper -->

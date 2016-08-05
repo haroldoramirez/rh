@@ -9,16 +9,27 @@ GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
 GET     /message                    controllers.AsyncController.message
 
-# Noticias Telas
+# Colaborador Telas
 GET     /colaborador/novo/                      controllers.PessoaController.telaNovo()
 GET		/colaborador/detalhe/:id			    controllers.PessoaController.telaDetalhe(id:Long)
 GET     /colaborador/editar/:id                 controllers.PessoaController.telaEditar(id:Long)
 GET     /colaborador/lista/todos                controllers.PessoaController.telaLista()
 
-# Noticia Servicos
+# Colaborador Servicos
 POST    /colaborador                            controllers.PessoaController.inserir()
 POST	/colaborador/:id/remover                controllers.PessoaController.remover(id:Long)
 POST    /colaborador/editar/:id                 controllers.PessoaController.editar(id:Long)
+
+# Areas Telas
+GET     /area/novo/                      controllers.AreaController.telaNovo()
+GET		/area/detalhe/:id			    controllers.AreaController.telaDetalhe(id:Long)
+GET     /area/editar/:id                 controllers.AreaController.telaEditar(id:Long)
+GET     /area/lista/todos                controllers.AreaController.telaLista()
+
+# Areas Servicos
+POST    /area                            controllers.AreaController.inserir()
+POST	/area/:id/remover                controllers.AreaController.remover(id:Long)
+POST    /area/editar/:id                 controllers.AreaController.editar(id:Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

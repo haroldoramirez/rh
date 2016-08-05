@@ -1,1 +1,84 @@
-@()
+@(id: Long, pessoaForm: play.data.Form[Pessoa])
+
+@import helper._
+@import bootstrap._
+
+@views.html.main("AdminRH - Editar Colaborador") {
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Editar
+            <small>Colaborador</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="@routes.PessoaController.telaLista"><i class="fa fa-users"></i> Colaboradores</a></li>
+            <li class="active">Editar</li>
+        </ol>
+    </section>
+
+        <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Informações pessoais</h3>
+                    </div>
+                        <!-- form start -->
+                    @form(routes.PessoaController.editar(id), 'id -> "pessoaForm") {
+                        <div class="box-body">
+                            <div class="col-md-4">
+                            @texto(pessoaForm("nome"), label = "Nome:", placeholder = "Insira o texto")
+                            </div>
+                            <div class="col-md-2">
+                            @texto(pessoaForm("telefone"), label = "Telefone:", placeholder = "Insira o telefone")
+                            </div>
+                            <div class="col-md-3">
+                            @texto(pessoaForm("cpf"), label = "CPF:", placeholder = "Insira o cpf")
+                            </div>
+                            <div class="col-md-3">
+                            @texto(pessoaForm("email"), label = "Email:", placeholder = "Insira o email")
+                            </div>
+                                <!-- Date -->
+                            <div class="col-md-2">
+                            @data(pessoaForm("dataAdmissao"), label = "Data de Admissão:", placeholder = "Insira a data")
+                            </div>
+                        </div>
+                            <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button data-loading-text="Editando..." id="btnSalvar" type="submit" class="btn btn-warning">Editar</button>
+                            <a href="@routes.PessoaController.telaLista" type="reset" class="btn btn-default">Voltar</a>
+                        </div>
+                    }
+                </div>
+                    <!-- /.box -->
+            </div>
+                <!-- /.col -->
+        </div>
+            <!-- /.row -->
+    </section>
+        <!-- /.content -->
+}
+
+<script type="text/javascript">
+        //Date picker
+        $('#dataAdmissao').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+        //Ao clickar no botao salvar mudar para Salvando... e desativar
+        $('#btnSalvar').on('click', function () {
+            var $btn = $(this).button('loading');
+        });
+        //Ao carregar a pagina desativar todos os campos input
+        window.onbeforeunload = function () {
+            var inputs = document.getElementsByTagName("INPUT");
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].type == "text") {
+                    inputs[i].disabled = true;
+                }
+            }
+        };
+</script>

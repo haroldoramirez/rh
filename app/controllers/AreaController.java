@@ -1,17 +1,18 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
-import models.Pessoa;
+import models.Area;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
+import validators.AreaFormData;
 
 import javax.inject.Inject;
 import java.util.List;
 
-public class PessoaController extends Controller {
+public class AreaController extends Controller {
 
     @Inject
     FormFactory formFactory;
@@ -20,8 +21,8 @@ public class PessoaController extends Controller {
      * @return noticia form if auth OK or not authorized
      */
     public Result telaNovo() {
-        Form<Pessoa> pessoaForm = formFactory.form(Pessoa.class);
-        return ok(views.html.colaboradores.create.render(pessoaForm));
+        Form<AreaFormData> areaForm = formFactory.form(AreaFormData.class);
+        return ok(views.html.areas.create.render(areaForm));
     }
 
     /**
@@ -29,13 +30,13 @@ public class PessoaController extends Controller {
      */
     public Result telaDetalhe(Long id) {
         try {
-            Pessoa pessoa = Ebean.find(Pessoa.class, id);
+            Area area = Ebean.find(Area.class, id);
 
-            if (pessoa == null) {
+            if (area == null) {
                 return notFound(views.html.mensagens.erro.render());
             }
 
-            return ok(views.html.colaboradores.detail.render(pessoa));
+            return ok(views.html.areas.detail.render(area));
         } catch (Exception e) {
             Logger.error(e.toString());
             return badRequest(views.html.mensagens.erro.render());
@@ -46,8 +47,8 @@ public class PessoaController extends Controller {
      * @return render edit form with a noticia data
      */
     public Result telaEditar(Long id) {
-        Form<Pessoa> pessoaForm = formFactory.form(Pessoa.class);
-        return ok(views.html.colaboradores.edit.render(id,pessoaForm));
+        Form<Area> areaForm = formFactory.form(Area.class);
+        return ok(views.html.areas.edit.render(id,areaForm));
     }
 
     /**
@@ -57,8 +58,8 @@ public class PessoaController extends Controller {
      */
     public Result telaLista() {
         try {
-            List<Pessoa> pessoas = Ebean.find(Pessoa.class).findList();
-            return ok(views.html.colaboradores.list.render(pessoas, ""));
+            List<Area> areas = Ebean.find(Area.class).findList();
+            return ok(views.html.areas.list.render(areas, ""));
         } catch (Exception e) {
             Logger.error(e.toString());
             return badRequest(views.html.mensagens.erro.render());
@@ -71,9 +72,24 @@ public class PessoaController extends Controller {
      * @return a render view to inform OK
      */
     public Result inserir() {
-        Pessoa pessoa = formFactory.form(Pessoa.class).bindFromRequest().get();
-        pessoa.save();
-        return created(views.html.mensagens.cadastrado.render());
+        //Resgata os dados do formulario atraves de uma requisicao
+        Form<AreaFormData> formData = formFactory.form(AreaFormData.class).bindFromRequest();
+
+        //se existir erros nos campos do formulario retorne os erros
+        if (formData.hasErrors()) {
+            return badRequest(views.html.areas.create.render(formData));
+        } else {
+            try {
+                //Converte os dados do formulario para uma instancia a ser salva na base de dados
+                Area area = Area.makeInstance(formData.get());
+                area.save();
+                return created(views.html.mensagens.area.cadastrado.render(area.getNome()));
+            } catch (Exception e) {
+                Logger.error(e.toString());
+                formData.reject(e.toString());
+                return badRequest(views.html.areas.create.render(formData));
+            }
+        }
 
     }
 
@@ -96,4 +112,6 @@ public class PessoaController extends Controller {
     public Result remover(Long id) {
         return TODO;
     }
+
+
 }

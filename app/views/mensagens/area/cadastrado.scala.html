@@ -1,4 +1,6 @@
-@views.html.main("AdminRH - Cadastro Área") {
+@(areaNome: String)
+
+@views.html.main("AdminRH - Área cadastrada") {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -21,9 +23,10 @@
                 <h3 class="box-title">Informações</h3>
             </div>
             <div class="box-body">
-                <div class="alert alert-sucess">
-                    <strong><i class="icon fa fa-check"></i></strong>
-                    <p>Cadastrado com sucesso.</p>
+                <div class="col-md-5">
+                    <div class="alert alert-success">
+                        <i class="icon fa fa-check"></i>A área <strong>@areaNome</strong> foi cadastrado com sucesso.
+                    </div>
                 </div>
             </div>
                 <!-- /.box-body -->

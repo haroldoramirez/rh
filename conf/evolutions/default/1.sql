@@ -6,6 +6,7 @@
 create table area (
   id                            bigserial not null,
   nome                          varchar(255),
+  nome_gerente                  varchar(255),
   constraint pk_area primary key (id)
 );
 

@@ -1,18 +1,18 @@
-@(pessoaForm: play.data.Form[Pessoa])
+@(areaForm: play.data.Form[validators.AreaFormData])
 
 @import helper._
 @import bootstrap._
 
-@views.html.main("AdminRH - Cadastro Colaborador") {
+@views.html.main("AdminRH - Cadastro Área") {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
             Cadastro
-            <small>Colaborador</small>
+            <small>Área</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="@routes.PessoaController.telaLista"><i class="fa fa-users"></i> Colaboradores</a></li>
+            <li><a href="@routes.AreaController.telaLista"><i class="fa fa-building"></i> Áreas</a></li>
             <li class="active">Cadastro</li>
         </ol>
     </section>
@@ -23,33 +23,36 @@
             <div class="col-xs-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Informações pessoais</h3>
+                        <h3 class="box-title">Informações</h3>
                     </div>
                         <!-- form start -->
-                    @form(routes.PessoaController.inserir, 'id -> "pessoaForm") {
+                    @form(routes.AreaController.inserir, 'id -> "areaForm") {
+
+                        @if(areaForm.hasGlobalErrors) {
+                            <div class="row">
+                                <div class="col-md-5 col-md-offset-3">
+                                    <div class="alert alert-danger">
+                                        <strong><i class="icon fa fa-ban"></i>Não foi possível salvar.</strong>
+                                        <p>Descrição: @areaForm.globalError.message</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
                         <div class="box-body">
                             <div class="col-md-4">
-                                @texto(pessoaForm("nome"), label = "Nome:", placeholder = "Insira o texto")
+                                @texto(areaForm("nome"), label = "Nome:", placeholder = "Insira o nome")
                             </div>
-                            <div class="col-md-2">
-                                @texto(pessoaForm("telefone"), label = "Telefone:", placeholder = "Insira o telefone")
-                            </div>
-                            <div class="col-md-3">
-                                @texto(pessoaForm("cpf"), label = "CPF:", placeholder = "Insira o cpf")
-                            </div>
-                            <div class="col-md-3">
-                                @texto(pessoaForm("email"), label = "Email:", placeholder = "Insira o email")
-                            </div>
-                                <!-- Date -->
-                            <div class="col-md-2">
-                                @data(pessoaForm("dataAdmissao"), label = "Data de Admissão:", placeholder = "Insira a data")
+                            <div class="col-md-4">
+                                @texto(areaForm("nomeGerente"), label = "Nome do Gerente:", placeholder = "Insira o nome do gerente")
                             </div>
                         </div>
                             <!-- /.box-body -->
 
                         <div class="box-footer">
                             <button data-loading-text="Salvando..." id="btnSalvar" type="submit" class="btn btn-success">Salvar</button>
-                            <a href="@routes.PessoaController.telaLista" type="reset" class="btn btn-default">Voltar</a>
+                            <a href="@routes.AreaController.telaLista" type="reset" class="btn btn-default">Voltar</a>
                         </div>
                     }
                 </div>
@@ -63,11 +66,6 @@
 }
 
 <script type="text/javascript">
-        //Date picker
-        $('#dataAdmissao').datepicker({
-            autoclose: true,
-            format: 'yyyy-mm-dd'
-        });
         //Ao clickar no botao salvar mudar para Salvando... e desativar
         $('#btnSalvar').on('click', function () {
             var $btn = $(this).button('loading');
