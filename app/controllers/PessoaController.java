@@ -73,7 +73,7 @@ public class PessoaController extends Controller {
     public Result inserir() {
         Pessoa pessoa = formFactory.form(Pessoa.class).bindFromRequest().get();
         pessoa.save();
-        return created(views.html.mensagens.cadastrado.render());
+        return created(views.html.mensagens.colaboradores.cadastrado.render(pessoa.getNome()));
 
     }
 

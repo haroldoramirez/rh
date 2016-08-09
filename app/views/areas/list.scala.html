@@ -32,6 +32,7 @@
                         <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                             <thead>
                                 <tr role="row">
+                                    <th>ID</th>
                                     <th>Nome</th>
                                     <th>Gerente</th>
                                 </tr>
@@ -39,6 +40,7 @@
                             <tbody>
                             @for(area <- areas) {
                                 <tr>
+                                    <td>@area.getId</td>
                                     <td><a href="@routes.AreaController.telaDetalhe(area.getId)"><b>@area.getNome</b></a></td>
                                     <td>@area.getNomeGerente</td>
                                 </tr>
@@ -58,13 +60,13 @@
 }
 
 <script type="text/javascript">
-        //Ao carregar a pagina desativar todos os campos input
-        window.onbeforeunload = function () {
-            var inputs = document.getElementsByTagName("INPUT");
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].type == "text") {
-                    inputs[i].disabled = true;
-                }
+    //Ao carregar a pagina desativar todos os campos input
+    window.onbeforeunload = function () {
+        var inputs = document.getElementsByTagName("INPUT");
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "text") {
+                inputs[i].disabled = true;
             }
-        };
+        }
+    };
 </script>

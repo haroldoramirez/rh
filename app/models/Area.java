@@ -1,14 +1,18 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
+import play.data.format.Formats;
 import validators.AreaFormData;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 @Entity
 public class Area extends Model {
-
 
     @Id
     private Long id;
@@ -16,6 +20,14 @@ public class Area extends Model {
     private String nome;
 
     private String nomeGerente;
+
+    @Formats.DateTime(pattern="yyyy-mm-dd")
+    @Temporal(TemporalType.DATE)
+    private Date dataCadastro;
+
+    @Formats.DateTime(pattern="yyyy-mm-dd")
+    @Temporal(TemporalType.DATE)
+    private Date dataAlteracao;
 
     public Area() {}
 
@@ -30,6 +42,17 @@ public class Area extends Model {
         area.setNome(formData.nome);
         area.setNomeGerente(formData.nomeGerente);
         return area;
+    }
+
+    public static AreaFormData makeAreaFormData(Long id) {
+
+        Area area = Ebean.find(Area.class, id);
+
+        if (area == null) {
+            throw new RuntimeException("Objeto não encontrado");
+        }
+
+        return new AreaFormData(area.nome, area.nomeGerente);
     }
 
     public Long getId() {
@@ -54,5 +77,21 @@ public class Area extends Model {
 
     public void setNomeGerente(String nomeGerente) {
         this.nomeGerente = nomeGerente;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public Date getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    public void setDataAlteracao(Date dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
     }
 }

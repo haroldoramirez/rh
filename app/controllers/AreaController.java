@@ -10,6 +10,7 @@ import play.mvc.Result;
 import validators.AreaFormData;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 public class AreaController extends Controller {
@@ -47,8 +48,19 @@ public class AreaController extends Controller {
      * @return render edit form with a noticia data
      */
     public Result telaEditar(Long id) {
-        Form<Area> areaForm = formFactory.form(Area.class);
-        return ok(views.html.areas.edit.render(id,areaForm));
+        try {
+            //logica onde instanciamos um objeto que esteja cadastrado na base de dados
+            AreaFormData areaFormData = (id == 0) ? new AreaFormData() : models.Area.makeAreaFormData(id);
+
+            //apos o objeto ser instanciado levamos os dados para o formData e os dados serao carregados no form edit
+            Form<AreaFormData> formData = formFactory.form(AreaFormData.class).fill(areaFormData);
+
+            return ok(views.html.areas.edit.render(id,formData));
+        } catch (Exception e) {
+            Logger.error(e.toString());
+            return badRequest(views.html.mensagens.erro.render());
+        }
+
     }
 
     /**
@@ -82,6 +94,7 @@ public class AreaController extends Controller {
             try {
                 //Converte os dados do formulario para uma instancia a ser salva na base de dados
                 Area area = Area.makeInstance(formData.get());
+                area.setDataCadastro(new Date());
                 area.save();
                 return created(views.html.mensagens.area.cadastrado.render(area.getNome()));
             } catch (Exception e) {
@@ -100,7 +113,33 @@ public class AreaController extends Controller {
      * @return a noticia updated with a form
      */
     public Result editar(Long id) {
-        return TODO;
+        //Resgata os dados do formulario atraves de uma requisicao e realiza a validacao dos campos
+        Form<AreaFormData> formData = formFactory.form(AreaFormData.class).bindFromRequest();
+
+        //verificar se tem erros no formData, caso tiver retorna o formulario com os erros e caso não tiver continua o processo de alteracao do publicacoes
+        if (formData.hasErrors()) {
+            return badRequest(views.html.areas.edit.render(id,formData));
+        } else {
+            try {
+                Area areaBusca = Ebean.find(Area.class, id);
+
+                if (areaBusca == null) {
+                    return notFound(views.html.mensagens.erro.render());
+                }
+
+                //Converte os dados do formularios para uma instancia
+                Area area = Area.makeInstance(formData.get());
+
+                area.setId(id);
+                area.setDataAlteracao(new Date());
+                area.update();
+                return ok(views.html.mensagens.area.alterado.render(area.getNome()));
+            } catch (Exception e) {
+                Logger.error(e.toString());
+                return badRequest(views.html.mensagens.erro.render());
+            }
+        }
+
     }
 
     /**
@@ -110,7 +149,25 @@ public class AreaController extends Controller {
      * @return ok noticia removed
      */
     public Result remover(Long id) {
-        return TODO;
+
+        String areaNome;
+
+        try {
+            //busca para ser excluido
+            Area area = Ebean.find(Area.class, id);
+
+            if (area == null) {
+                return notFound(views.html.mensagens.erro.render());
+            }
+
+            areaNome = area.getNome();
+
+            Ebean.delete(area);
+            return ok(views.html.mensagens.area.removido.render(areaNome));
+        } catch (Exception e) {
+            Logger.error(e.toString());
+            return badRequest(views.html.mensagens.erro.render());
+        }
     }
 
 

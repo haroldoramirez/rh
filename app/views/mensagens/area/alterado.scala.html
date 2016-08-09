@@ -1,14 +1,16 @@
-@views.html.main("AdminRH - Cadastro Área") {
+@(areaNome: String)
+
+@views.html.main("AdminRH - Área") {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Cadastro
+            Editar
             <small>Área</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
             <li><a href="@routes.AreaController.telaLista"><i class="fa fa-building"></i> Áreas</a></li>
-            <li class="active">Cadastrado</li>
+            <li class="active">Alterado</li>
         </ol>
     </section>
 
@@ -18,12 +20,15 @@
             <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Informações</h3>
+                <h3 class="box-title">Mensagens</h3>
             </div>
             <div class="box-body">
-                <div class="alert alert-sucess">
-                    <strong><i class="icon fa fa-check"></i></strong>
-                    <p>Cadastrado com sucesso.</p>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="alert alert-info">
+                            <i class="icon fa fa-check"></i><strong>@areaNome</strong> alterado com sucesso.
+                        </div>
+                    </div>
                 </div>
             </div>
                 <!-- /.box-body -->

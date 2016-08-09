@@ -7,12 +7,16 @@ create table area (
   id                            bigserial not null,
   nome                          varchar(255),
   nome_gerente                  varchar(255),
+  data_cadastro                 date,
+  data_alteracao                date,
   constraint pk_area primary key (id)
 );
 
 create table beneficio (
   id                            bigserial not null,
   nome                          varchar(255),
+  data_cadastro                 date,
+  data_alteracao                date,
   constraint pk_beneficio primary key (id)
 );
 

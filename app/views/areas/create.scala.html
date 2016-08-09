@@ -66,17 +66,17 @@
 }
 
 <script type="text/javascript">
-        //Ao clickar no botao salvar mudar para Salvando... e desativar
-        $('#btnSalvar').on('click', function () {
-            var $btn = $(this).button('loading');
-        });
-        //Ao carregar a pagina desativar todos os campos input
-        window.onbeforeunload = function () {
-            var inputs = document.getElementsByTagName("INPUT");
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].type == "text") {
-                    inputs[i].disabled = true;
-                }
+    //Ao clickar no botao salvar mudar para Salvando... e desativar
+    $('#btnSalvar').on('click', function () {
+        var $btn = $(this).button('loading');
+    });
+    //Ao carregar a pagina desativar todos os campos input
+    window.onbeforeunload = function () {
+        var inputs = document.getElementsByTagName("INPUT");
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "text") {
+                inputs[i].disabled = true;
             }
-        };
+        }
+    };
 </script>

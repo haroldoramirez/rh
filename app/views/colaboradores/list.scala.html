@@ -43,7 +43,7 @@
                             @for(pessoa <- pessoas) {
                                 <tr>
                                     <td>@pessoa.getId</td>
-                                    <td><a href="@routes.PessoaController.telaDetalhe(pessoa.getId)">@pessoa.getNome</a></td>
+                                    <td><a href="@routes.PessoaController.telaDetalhe(pessoa.getId)"><strong>@pessoa.getNome</strong></a></td>
                                     <td>@pessoa.getTelefone</td>
                                     <td>@pessoa.getCpf</td>
                                     <td>@pessoa.getEmail</td>
