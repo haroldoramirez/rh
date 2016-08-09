@@ -120,8 +120,8 @@
                         <li>
                             <a href=""><i class="fa fa-user-md"></i> <span>Cargos</span></a>
                         </li>
-                        <li>
-                            <a href=""><i class="fa fa-balance-scale"></i> <span>Benefícios</span></a>
+                        <li @if(request.path.startsWith("/beneficio")){ class="active" }>
+                            <a href="@routes.BeneficioController.telaLista"><i class="fa fa-balance-scale"></i> <span>Benefícios</span></a>
                         </li>
                     </ul>
                 </section>

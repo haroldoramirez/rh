@@ -19,7 +19,7 @@ public class AreaController extends Controller {
     FormFactory formFactory;
 
     /**
-     * @return noticia form if auth OK or not authorized
+     * @return object form
      */
     public Result telaNovo() {
         Form<AreaFormData> areaForm = formFactory.form(AreaFormData.class);
@@ -27,25 +27,25 @@ public class AreaController extends Controller {
     }
 
     /**
-     * @return render a detail form with a noticia data
+     * @return render a detail form with data
      */
     public Result telaDetalhe(Long id) {
         try {
             Area area = Ebean.find(Area.class, id);
 
             if (area == null) {
-                return notFound(views.html.mensagens.erro.render());
+                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado."));
             }
 
             return ok(views.html.areas.detail.render(area));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.erro.render());
+            return badRequest(views.html.mensagens.area.erro.render(e.toString()));
         }
     }
 
     /**
-     * @return render edit form with a noticia data
+     * @return render a edit form with data
      */
     public Result telaEditar(Long id) {
         try {
@@ -58,15 +58,15 @@ public class AreaController extends Controller {
             return ok(views.html.areas.edit.render(id,formData));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.erro.render());
+            return badRequest(views.html.mensagens.area.erro.render(e.toString()));
         }
 
     }
 
     /**
-     * Retrieve a list of all noticias
+     * Retrieve a list of all objects
      *
-     * @return a list of all noticias in a render template
+     * @return a list of all objects in a render template
      */
     public Result telaLista() {
         try {
@@ -74,14 +74,14 @@ public class AreaController extends Controller {
             return ok(views.html.areas.list.render(areas, ""));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.erro.render());
+            return badRequest(views.html.mensagens.area.erro.render(e.toString()));
         }
     }
 
     /**
-     * Save a noticia
+     * Save a object
      *
-     * @return a render view to inform OK
+     * @return a render created view to inform OK
      */
     public Result inserir() {
         //Resgata os dados do formulario atraves de uma requisicao
@@ -107,16 +107,16 @@ public class AreaController extends Controller {
     }
 
     /**
-     * Update a noticia from id
+     * Update a object from id
      *
      * @param id variavel identificadora
-     * @return a noticia updated with a form
+     * @return updated object with a form
      */
     public Result editar(Long id) {
         //Resgata os dados do formulario atraves de uma requisicao e realiza a validacao dos campos
         Form<AreaFormData> formData = formFactory.form(AreaFormData.class).bindFromRequest();
 
-        //verificar se tem erros no formData, caso tiver retorna o formulario com os erros e caso não tiver continua o processo de alteracao do publicacoes
+        //verificar se tem erros no formData, caso tiver retornar o formulario com os erros e caso não tiver continua o processo de alteracao
         if (formData.hasErrors()) {
             return badRequest(views.html.areas.edit.render(id,formData));
         } else {
@@ -124,10 +124,10 @@ public class AreaController extends Controller {
                 Area areaBusca = Ebean.find(Area.class, id);
 
                 if (areaBusca == null) {
-                    return notFound(views.html.mensagens.erro.render());
+                    return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado."));
                 }
 
-                //Converte os dados do formularios para uma instancia
+                //Converte os dados do formulario para uma instancia
                 Area area = Area.makeInstance(formData.get());
 
                 area.setId(id);
@@ -136,17 +136,17 @@ public class AreaController extends Controller {
                 return ok(views.html.mensagens.area.alterado.render(area.getNome()));
             } catch (Exception e) {
                 Logger.error(e.toString());
-                return badRequest(views.html.mensagens.erro.render());
+                return badRequest(views.html.mensagens.area.erro.render(e.toString()));
             }
         }
 
     }
 
     /**
-     * Remove a noticia from a id
+     * Remove a object from a id
      *
      * @param id variavel identificadora
-     * @return ok noticia removed
+     * @return ok if removed
      */
     public Result remover(Long id) {
 
@@ -157,7 +157,7 @@ public class AreaController extends Controller {
             Area area = Ebean.find(Area.class, id);
 
             if (area == null) {
-                return notFound(views.html.mensagens.erro.render());
+                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado."));
             }
 
             areaNome = area.getNome();
@@ -166,9 +166,8 @@ public class AreaController extends Controller {
             return ok(views.html.mensagens.area.removido.render(areaNome));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.erro.render());
+            return badRequest(views.html.mensagens.area.erro.render(e.toString()));
         }
     }
-
 
 }

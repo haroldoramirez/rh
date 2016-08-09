@@ -38,7 +38,7 @@ public class Area extends Model {
     }
 
     public static Area makeInstance(AreaFormData formData) {
-        Area area= new Area();
+        Area area = new Area();
         area.setNome(formData.nome);
         area.setNomeGerente(formData.nomeGerente);
         return area;

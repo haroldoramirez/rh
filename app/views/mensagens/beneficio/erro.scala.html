@@ -1,16 +1,16 @@
-@(areaNome: String)
+@(beneficioErro: String)
 
-@views.html.main("AdminRH - Área") {
+@views.html.main("AdminRH - Benefício") {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
             Remover
-            <small>Área</small>
+            <small>Benefício</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="@routes.AreaController.telaLista"><i class="fa fa-building"></i> Áreas</a></li>
-            <li class="active">Removido</li>
+            <li><a href="@routes.BeneficioController.telaLista"><i class="fa fa-balance-scale"></i> Benefícios</a></li>
+            <li class="active">Erro</li>
         </ol>
     </section>
 
@@ -25,15 +25,17 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-5">
-                        <div class="alert alert-warning">
-                            <i class="icon fa fa-check"></i><strong>@areaNome</strong> removido com sucesso.
+                        <div class="alert alert-danger">
+                            <strong><i class="icon fa fa-ban"></i>Erro interno de sistema</strong>
+                            <p>Descrição: @beneficioErro</p>
                         </div>
                     </div>
                 </div>
+
             </div>
                 <!-- /.box-body -->
             <div class="box-footer">
-                <a href="@routes.AreaController.telaLista" class="btn btn-default">Voltar</a>
+                <a href="@routes.BeneficioController.telaLista" class="btn btn-default">Voltar</a>
             </div>
                 <!-- /.box-footer-->
         </div>

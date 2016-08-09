@@ -1,7 +1,9 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import play.data.format.Formats;
+import validators.BeneficioFormData;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,6 +26,30 @@ public class Beneficio extends Model {
     @Formats.DateTime(pattern="yyyy-mm-dd")
     @Temporal(TemporalType.DATE)
     private Date dataAlteracao;
+
+    public Beneficio() {}
+
+    public Beneficio(Long id, String nome) {
+        this.setId(id);
+        this.setNome(nome);
+    }
+
+    public static Beneficio makeInstance(BeneficioFormData formData) {
+        Beneficio beneficio = new Beneficio();
+        beneficio.setNome(formData.nome);
+        return beneficio;
+    }
+
+    public static BeneficioFormData makeBeneficioFormData(Long id) {
+
+        Beneficio beneficio = Ebean.find(Beneficio.class, id);
+
+        if (beneficio == null) {
+            throw new RuntimeException("Objeto não encontrado.");
+        }
+
+        return new BeneficioFormData(beneficio.nome);
+    }
 
     public Long getId() {
         return id;

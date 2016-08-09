@@ -32,13 +32,13 @@ public class PessoaController extends Controller {
             Pessoa pessoa = Ebean.find(Pessoa.class, id);
 
             if (pessoa == null) {
-                return notFound(views.html.mensagens.erro.render());
+                return notFound(views.html.mensagens.colaborador.erro.render());
             }
 
             return ok(views.html.colaboradores.detail.render(pessoa));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.erro.render());
+            return badRequest(views.html.mensagens.colaborador.erro.render());
         }
     }
 
@@ -61,7 +61,7 @@ public class PessoaController extends Controller {
             return ok(views.html.colaboradores.list.render(pessoas, ""));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.erro.render());
+            return badRequest(views.html.mensagens.colaborador.erro.render());
         }
     }
 
@@ -73,7 +73,7 @@ public class PessoaController extends Controller {
     public Result inserir() {
         Pessoa pessoa = formFactory.form(Pessoa.class).bindFromRequest().get();
         pessoa.save();
-        return created(views.html.mensagens.colaboradores.cadastrado.render(pessoa.getNome()));
+        return created(views.html.mensagens.colaborador.cadastrado.render(pessoa.getNome()));
 
     }
 
