@@ -1,0 +1,79 @@
+@(id: Long, cargoForm: play.data.Form[validators.CargoFormData])
+
+@import helper._
+@import bootstrap._
+
+@views.html.main("AdminRH - Editar Cargo") {
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Editar
+            <small>Cargo</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="@routes.CargoController.telaLista"><i class="fa fa-user-md"></i> Cargos</a></li>
+            <li class="active">Editar</li>
+        </ol>
+    </section>
+
+        <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Informações</h3>
+                    </div>
+                        <!-- form start -->
+                    @form(routes.CargoController.editar(id), 'id -> "cargoForm") {
+
+                        @if(cargoForm.hasGlobalErrors) {
+                            <div class="row">
+                                <div class="col-md-5 col-md-offset-3">
+                                    <div class="alert alert-danger">
+                                        <strong><i class="icon fa fa-ban"></i>Não foi possível alterar.</strong>
+                                        <p>Descrição: @cargoForm.globalError.message</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                        <div class="box-body">
+                            <div class="col-md-4">
+                            @texto(cargoForm("nome"), label = "Nome:", placeholder = "Insira o nome")
+                            </div>
+                        </div>
+                            <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button data-loading-text="Salvando..." id="btnSalvar" type="submit" class="btn btn-info">Editar</button>
+                            <a href="@routes.CargoController.telaDetalhe(id)" type="reset" class="btn btn-default">Voltar</a>
+                        </div>
+                    }
+                </div>
+                    <!-- /.box -->
+            </div>
+                <!-- /.col -->
+        </div>
+            <!-- /.row -->
+    </section>
+        <!-- /.content -->
+}
+
+<script type="text/javascript">
+        //Ao clickar no botao salvar mudar para Salvando... e desativar
+        $('#btnSalvar').on('click', function () {
+            var $btn = $(this).button('loading');
+        });
+        //Ao carregar a pagina desativar todos os campos input
+        window.onbeforeunload = function () {
+            var inputs = document.getElementsByTagName("INPUT");
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].type == "text") {
+                    inputs[i].disabled = true;
+                }
+            }
+        };
+</script>

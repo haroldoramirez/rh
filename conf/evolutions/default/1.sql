@@ -23,6 +23,8 @@ create table beneficio (
 create table cargo (
   id                            bigserial not null,
   nome                          varchar(255),
+  data_cadastro                 date,
+  data_alteracao                date,
   constraint pk_cargo primary key (id)
 );
 

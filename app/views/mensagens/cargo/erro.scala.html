@@ -1,0 +1,46 @@
+@(cargoErro: String)
+
+    @views.html.main("AdminRH - Cargo") {
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Remover
+                <small>Cargo</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="@routes.CargoController.telaLista"><i class="fa fa-user-md"></i> Cargos</a></li>
+                <li class="active">Erro</li>
+            </ol>
+        </section>
+
+            <!-- Main content -->
+        <section class="content">
+
+                <!-- Default box -->
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Mensagens</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="alert alert-danger">
+                                <strong><i class="icon fa fa-ban"></i>Erro interno de sistema</strong>
+                                <p>Descrição: @cargoErro</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                    <!-- /.box-body -->
+                <div class="box-footer">
+                    <a href="@routes.CargoController.telaLista" class="btn btn-default">Voltar</a>
+                </div>
+                    <!-- /.box-footer-->
+            </div>
+                <!-- /.box -->
+
+        </section>
+            <!-- /.content -->
+    }

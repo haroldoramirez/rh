@@ -42,5 +42,16 @@ POST    /beneficio                            controllers.BeneficioController.in
 POST	/beneficio/:id/remover                controllers.BeneficioController.remover(id:Long)
 POST    /beneficio/editar/:id                 controllers.BeneficioController.editar(id:Long)
 
+# Areas Telas
+GET     /cargo/novo/                      controllers.CargoController.telaNovo()
+GET		/cargo/detalhe/:id			    controllers.CargoController.telaDetalhe(id:Long)
+GET     /cargo/editar/:id                 controllers.CargoController.telaEditar(id:Long)
+GET     /cargo/lista/todos                controllers.CargoController.telaLista()
+
+# Areas Servicos
+POST    /cargo                            controllers.CargoController.inserir()
+POST	/cargo/:id/remover                controllers.CargoController.remover(id:Long)
+POST    /cargo/editar/:id                 controllers.CargoController.editar(id:Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
