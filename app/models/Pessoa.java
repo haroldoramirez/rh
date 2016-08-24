@@ -62,15 +62,15 @@ public class Pessoa extends Model {
     private Tipo tipo;
 
     //muitas pessoas tem um endereco
-    @ManyToOne(optional = true)
+    @ManyToOne
     private Endereco endereco;
 
     //muitas pessoas tem um cargo
-    @ManyToOne(optional = true)
+    @ManyToOne
     private Cargo cargo;
 
     //muitas pessoas tem uma area
-    @ManyToOne(optional = true)
+    @ManyToOne
     private Area area;
 
     //muitas pessoas tem muitos beneficios
