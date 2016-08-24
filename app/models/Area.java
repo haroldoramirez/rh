@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Entity
 public class Area extends Model {
@@ -93,5 +95,15 @@ public class Area extends Model {
 
     public void setDataAlteracao(Date dataAlteracao) {
         this.dataAlteracao = dataAlteracao;
+    }
+
+    public static Finder<Long, Area> find = new Finder<>(Area.class);
+
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<>();
+        for (Area a : Area.find.orderBy("nome").findList()) {
+            options.put(a.id.toString(),a.nome);
+        }
+        return options;
     }
 }

@@ -7,7 +7,6 @@
     <section class="content-header">
         <h1>
             Detalhe
-            <small>Área</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
@@ -34,14 +33,16 @@
                                 <li><a data-toggle="modal" data-target=".bs-example-modal-sm" href="">Excluir</a></li>
                             </ul>
                         </div>
-                        <h3 class="box-title">@area.getNome</h3>
+                        <h3 class="box-title">Área</h3>
                     </div>
                         <!-- /.box-header -->
                     <div class="box-body">
-                        <dl>
+                        <dl class="dl-horizontal">
                             <dt>ID</dt>
                             <dd>@area.getId</dd>
-                            <dt>Nome do Gerente</dt>
+                            <dt>Nome</dt>
+                            <dd>@area.getNome</dd>
+                            <dt>Gerente</dt>
                             <dd>@area.getNomeGerente</dd>
                             <dt>Data de Cadastro</dt>
                             <dd>@area.getDataCadastro.format("dd MMMM yyyy")</dd>

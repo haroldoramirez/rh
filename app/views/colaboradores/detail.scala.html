@@ -7,7 +7,6 @@
     <section class="content-header">
         <h1>
             Detalhe
-            <small>Colaborador</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
@@ -34,13 +33,15 @@
                                 <li><a data-toggle="modal" data-target=".bs-example-modal-sm" href="">Excluir</a></li>
                             </ul>
                         </div>
-                        <h3 class="box-title">@pessoa.getNome</h3>
+                        <h3 class="box-title">Colaborador</h3>
                     </div>
                         <!-- /.box-header -->
                     <div class="box-body">
-                        <dl>
+                        <dl class="dl-horizontal">
                             <dt>Matrícula</dt>
                             <dd>@pessoa.getId</dd>
+                            <dt>Nome</dt>
+                            <dd>@pessoa.getNome</dd>
                             <dt>Telefone</dt>
                             <dd>@pessoa.getTelefone</dd>
                             <dt>CPF</dt>
@@ -51,8 +52,7 @@
                             <dd>@pessoa.getDataAdmissao.format("dd MMMM yyyy")</dd>
                         </dl>
                     </div>
-                        <!-- /.box-body -->
-
+                    <!-- /.box-body -->
                 </div>
                     <!-- /.box -->
             </div>

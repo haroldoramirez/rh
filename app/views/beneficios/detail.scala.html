@@ -7,7 +7,6 @@
     <section class="content-header">
         <h1>
             Detalhe
-            <small>Benefício</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
@@ -34,13 +33,15 @@
                                 <li><a data-toggle="modal" data-target=".bs-example-modal-sm" href="">Excluir</a></li>
                             </ul>
                         </div>
-                        <h3 class="box-title">@beneficio.getNome</h3>
+                        <h3 class="box-title">Benefício</h3>
                     </div>
                         <!-- /.box-header -->
                     <div class="box-body">
-                        <dl>
+                        <dl class="dl-horizontal">
                             <dt>ID</dt>
                             <dd>@beneficio.getId</dd>
+                            <dt>Nome</dt>
+                            <dd>@beneficio.getNome</dd>
                             <dt>Data de Cadastro</dt>
                             <dd>@beneficio.getDataCadastro.format("dd MMMM yyyy")</dd>
                         </dl>

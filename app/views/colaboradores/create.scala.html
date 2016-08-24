@@ -44,8 +44,11 @@
                             <div class="col-md-2">
                                 @data(pessoaForm("dataAdmissao"), label = "Data de Admissão:", placeholder = "Insira a data")
                             </div>
+                            <div class="col-md-3">
+
+                            </div>
                         </div>
-                            <!-- /.box-body -->
+                        <!-- /.box-body -->
 
                         <div class="box-footer">
                             <button data-loading-text="Salvando..." id="btnSalvar" type="submit" class="btn btn-success">Salvar</button>
@@ -80,5 +83,10 @@
                     inputs[i].disabled = true;
                 }
             }
+        };
+        window.onload = function() {
+            var form = document.getElementById("pessoaForm");
+            form.elements[0].focus();
+            //inscricaoForm.nome.focus(); codigo alternativo ao anterior
         };
 </script>
