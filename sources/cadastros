@@ -1,0 +1,6 @@
+@select(
+    pessoaForm("area.id"),
+    options(Area.options),
+    '_label -> "Area", '_default -> "-- Choose a área --",
+    '_showConstraints -> false
+)

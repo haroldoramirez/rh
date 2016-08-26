@@ -18,7 +18,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <a type="button" href="@routes.PessoaController.telaNovo" class="pull-right btn btn-success">Cadastrar</a>
+                        <a type="button" href="@routes.PessoaController.telaNovo()" class="pull-right btn btn-success">Cadastrar</a>
                         <div class="input-group col-lg-3">
                             <input autocomplete="off" type="text" class="form-control" placeholder="Buscar por...">
                             <span class="input-group-btn">
@@ -36,6 +36,9 @@
                                     <th>Telefone</th>
                                     <th>CPF</th>
                                     <th>Email</th>
+                                    <th>Cargo</th>
+                                    <th>Área</th>
+                                    <th>Benefício</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,6 +49,9 @@
                                     <td>@pessoa.getTelefone</td>
                                     <td>@pessoa.getCpf</td>
                                     <td>@pessoa.getEmail</td>
+                                    <td>@pessoa.getCargo.getNome</td>
+                                    <td>@pessoa.getArea.getNome</td>
+                                    <td>@pessoa.getBeneficio.getNome</td>
                                 </tr>
                             }
                             </tbody>
@@ -55,7 +61,11 @@
                                     <th>Nome</th>
                                     <th>Telefone</th>
                                     <th>CPF</th>
-                                    <th>Email</th></tr>
+                                    <th>Email</th>
+                                    <th>Cargo</th>
+                                    <th>Área</th>
+                                    <th>Benefício</th>
+                                </tr>
                             </tfoot>
                         </table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 of 57 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Anterior</a></li><li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li><li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Próximo</a></li></ul></div></div></div></div>
                     </div>

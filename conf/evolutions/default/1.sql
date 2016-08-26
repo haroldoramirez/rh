@@ -36,6 +36,22 @@ create table endereco (
   constraint pk_endereco primary key (id)
 );
 
+create table estado_civil (
+  id                            bigserial not null,
+  nome                          varchar(255),
+  data_cadastro                 date,
+  data_alteracao                date,
+  constraint pk_estado_civil primary key (id)
+);
+
+create table genero (
+  id                            bigserial not null,
+  nome                          varchar(255),
+  data_cadastro                 date,
+  data_alteracao                date,
+  constraint pk_genero primary key (id)
+);
+
 create table pessoa (
   id                            bigserial not null,
   nome                          varchar(255),
@@ -59,12 +75,13 @@ create table pessoa (
   conta_digito                  varchar(255),
   saldo_horas                   varchar(255),
   numero_pis                    varchar(255),
-  genero                        integer,
-  estado_civil                  integer,
-  tipo                          integer,
+  genero_id                     bigint,
+  estado_civil_id               bigint,
+  tipo_id                       bigint,
   endereco_id                   bigint,
   cargo_id                      bigint,
   area_id                       bigint,
+  beneficio_id                  bigint,
   data_nascimento               date,
   data_emissao_rg               date,
   data_admissao                 date,
@@ -73,17 +90,25 @@ create table pessoa (
   data_ferias_fim               date,
   data_cadastro                 date,
   data_alteracao                date,
-  constraint ck_pessoa_genero check (genero in (0,1)),
-  constraint ck_pessoa_estado_civil check (estado_civil in (0,1,2,3,4)),
-  constraint ck_pessoa_tipo check (tipo in (0,1,2,3)),
   constraint pk_pessoa primary key (id)
 );
 
-create table pessoa_beneficio (
-  pessoa_id                     bigint not null,
-  beneficio_id                  bigint not null,
-  constraint pk_pessoa_beneficio primary key (pessoa_id,beneficio_id)
+create table tipo (
+  id                            bigserial not null,
+  nome                          varchar(255),
+  data_cadastro                 date,
+  data_alteracao                date,
+  constraint pk_tipo primary key (id)
 );
+
+alter table pessoa add constraint fk_pessoa_genero_id foreign key (genero_id) references genero (id) on delete restrict on update restrict;
+create index ix_pessoa_genero_id on pessoa (genero_id);
+
+alter table pessoa add constraint fk_pessoa_estado_civil_id foreign key (estado_civil_id) references estado_civil (id) on delete restrict on update restrict;
+create index ix_pessoa_estado_civil_id on pessoa (estado_civil_id);
+
+alter table pessoa add constraint fk_pessoa_tipo_id foreign key (tipo_id) references tipo (id) on delete restrict on update restrict;
+create index ix_pessoa_tipo_id on pessoa (tipo_id);
 
 alter table pessoa add constraint fk_pessoa_endereco_id foreign key (endereco_id) references endereco (id) on delete restrict on update restrict;
 create index ix_pessoa_endereco_id on pessoa (endereco_id);
@@ -94,14 +119,20 @@ create index ix_pessoa_cargo_id on pessoa (cargo_id);
 alter table pessoa add constraint fk_pessoa_area_id foreign key (area_id) references area (id) on delete restrict on update restrict;
 create index ix_pessoa_area_id on pessoa (area_id);
 
-alter table pessoa_beneficio add constraint fk_pessoa_beneficio_pessoa foreign key (pessoa_id) references pessoa (id) on delete restrict on update restrict;
-create index ix_pessoa_beneficio_pessoa on pessoa_beneficio (pessoa_id);
-
-alter table pessoa_beneficio add constraint fk_pessoa_beneficio_beneficio foreign key (beneficio_id) references beneficio (id) on delete restrict on update restrict;
-create index ix_pessoa_beneficio_beneficio on pessoa_beneficio (beneficio_id);
+alter table pessoa add constraint fk_pessoa_beneficio_id foreign key (beneficio_id) references beneficio (id) on delete restrict on update restrict;
+create index ix_pessoa_beneficio_id on pessoa (beneficio_id);
 
 
 # --- !Downs
+
+alter table if exists pessoa drop constraint if exists fk_pessoa_genero_id;
+drop index if exists ix_pessoa_genero_id;
+
+alter table if exists pessoa drop constraint if exists fk_pessoa_estado_civil_id;
+drop index if exists ix_pessoa_estado_civil_id;
+
+alter table if exists pessoa drop constraint if exists fk_pessoa_tipo_id;
+drop index if exists ix_pessoa_tipo_id;
 
 alter table if exists pessoa drop constraint if exists fk_pessoa_endereco_id;
 drop index if exists ix_pessoa_endereco_id;
@@ -112,11 +143,8 @@ drop index if exists ix_pessoa_cargo_id;
 alter table if exists pessoa drop constraint if exists fk_pessoa_area_id;
 drop index if exists ix_pessoa_area_id;
 
-alter table if exists pessoa_beneficio drop constraint if exists fk_pessoa_beneficio_pessoa;
-drop index if exists ix_pessoa_beneficio_pessoa;
-
-alter table if exists pessoa_beneficio drop constraint if exists fk_pessoa_beneficio_beneficio;
-drop index if exists ix_pessoa_beneficio_beneficio;
+alter table if exists pessoa drop constraint if exists fk_pessoa_beneficio_id;
+drop index if exists ix_pessoa_beneficio_id;
 
 drop table if exists area cascade;
 
@@ -126,7 +154,11 @@ drop table if exists cargo cascade;
 
 drop table if exists endereco cascade;
 
+drop table if exists estado_civil cascade;
+
+drop table if exists genero cascade;
+
 drop table if exists pessoa cascade;
 
-drop table if exists pessoa_beneficio cascade;
+drop table if exists tipo cascade;
 

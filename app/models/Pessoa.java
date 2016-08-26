@@ -1,11 +1,12 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import play.data.format.Formats;
+import validators.PessoaFormData;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Pessoa extends Model {
@@ -55,10 +56,16 @@ public class Pessoa extends Model {
 
     private String numeroPis;
 
+    //muitas pessoas tem um genero
+    @ManyToOne
     private Genero genero;
 
+    //muitas pessoas tem um estado civil
+    @ManyToOne
     private EstadoCivil estadoCivil;
 
+    //muitas pessoas tem um tipo de funcionario
+    @ManyToOne
     private Tipo tipo;
 
     //muitas pessoas tem um endereco
@@ -74,8 +81,12 @@ public class Pessoa extends Model {
     private Area area;
 
     //muitas pessoas tem muitos beneficios
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Beneficio> beneficios;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    private List<Beneficio> beneficios;
+
+    //muitas pessoas tem uma area
+    @ManyToOne
+    private Beneficio beneficio;
 
     @Formats.DateTime(pattern="yyyy-mm-dd")
     @Temporal(TemporalType.DATE)
@@ -108,6 +119,118 @@ public class Pessoa extends Model {
     @Formats.DateTime(pattern="yyyy-mm-dd")
     @Temporal(TemporalType.DATE)
     private Date dataAlteracao;
+
+    public Pessoa() {}
+
+    public Pessoa(Long id,
+                  String nome,
+                  String cpf,
+                  String localNascimento,
+                  String ufNascimento,
+                  String nomeConjuge,
+                  String nomePai,
+                  String nomeMae,
+                  String rg,
+                  String orgaoEmissorRg,
+                  String centroCusto,
+                  String telefone,
+                  String celular,
+                  String email,
+                  String escolaridade,
+                  String salario,
+                  String nomeBanco,
+                  String contaAgencia,
+                  String contaNumero,
+                  String contaDigito,
+                  String saldoHoras,
+                  String numeroPis,
+                  Genero genero,
+                  EstadoCivil estadoCivil,
+                  Tipo tipo,
+                  Endereco endereco,
+                  Cargo cargo,
+                  Area area,
+                  Beneficio beneficio,
+                  Date dataNascimento,
+                  Date dataAdmissao) {
+        this.setId(id);
+        this.setNome(nome);
+        this.setCpf(cpf);
+        this.setLocalNascimento(localNascimento);
+        this.setUfNascimento(ufNascimento);
+        this.setNomeConjuge(nomeConjuge);
+        this.setNomePai(nomePai);
+        this.setNomeMae(nomeMae);
+        this.setRg(rg);
+        this.setOrgaoEmissorRg(orgaoEmissorRg);
+        this.setCentroCusto(centroCusto);
+        this.setTelefone(telefone);
+        this.setCelular(celular);
+        this.setEmail(email);
+        this.setEscolaridade(escolaridade);
+        this.setSalario(salario);
+        this.setNomeBanco(nomeBanco);
+        this.setContaAgencia(contaAgencia);
+        this.setContaNumero(contaNumero);
+        this.setContaDigito(contaDigito);
+        this.setSaldoHoras(saldoHoras);
+        this.setNumeroPis(numeroPis);
+        this.setGenero(genero);
+        this.setEstadoCivil(estadoCivil);
+        this.setTipo(tipo);
+        this.setEndereco(endereco);
+        this.setCargo(cargo);
+        this.setArea(area);
+        this.setBeneficio(beneficio);
+        this.setDataNascimento(dataNascimento);
+        this.setDataAdmissao(dataAdmissao);
+    }
+
+    public static Pessoa makeInstance(PessoaFormData formData) {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome(formData.nome);
+        pessoa.setCpf(formData.cpf);
+        pessoa.setLocalNascimento(formData.localNascimento);
+        pessoa.setUfNascimento(formData.ufNascimento);
+        pessoa.setNomeConjuge(formData.nomeConjuge);
+        pessoa.setNomePai(formData.nomePai);
+        pessoa.setNomeMae(formData.nomeMae);
+        pessoa.setRg(formData.rg);
+        pessoa.setOrgaoEmissorRg(formData.orgaoEmissorRg);
+        pessoa.setCentroCusto(formData.centroCusto);
+        pessoa.setTelefone(formData.telefone);
+        pessoa.setCelular(formData.celular);
+        pessoa.setEmail(formData.email);
+        pessoa.setEscolaridade(formData.escolaridade);
+        pessoa.setSalario(formData.salario);
+        pessoa.setNomeBanco(formData.nomeBanco);
+        pessoa.setContaAgencia(formData.contaAgencia);
+        pessoa.setContaNumero(formData.contaNumero);
+        pessoa.setContaDigito(formData.contaDigito);
+        pessoa.setSaldoHoras(formData.saldoHoras);
+        pessoa.setNumeroPis(formData.numeroPis);
+        pessoa.setGenero(Genero.findGenero(formData.genero));
+        pessoa.setEstadoCivil(EstadoCivil.findEstadoCivil(formData.estadoCivil));
+        pessoa.setTipo(Tipo.findTipo(formData.tipo));
+        pessoa.setEndereco(new Endereco());
+        pessoa.setCargo(Cargo.findCargo(formData.cargo));
+        pessoa.setArea(Area.findArea(formData.area));
+        pessoa.setBeneficio(Beneficio.findBeneficio(formData.beneficio));
+        pessoa.setDataNascimento(formData.dataNascimento);
+        pessoa.setDataAdmissao(formData.dataAdmissao);
+        return pessoa;
+    }
+
+    public static PessoaFormData makePessoaFormData(Long id) {
+
+        Pessoa pessoa = Ebean.find(Pessoa.class, id);
+
+        if (pessoa == null) {
+            throw new RuntimeException("Objeto não encontrado");
+        }
+
+        return new PessoaFormData(pessoa.nome);
+    }
 
     public Long getId() {
         return id;
@@ -333,12 +456,12 @@ public class Pessoa extends Model {
         this.area = area;
     }
 
-    public List<Beneficio> getBeneficios() {
-        return beneficios;
+    public Beneficio getBeneficio() {
+        return beneficio;
     }
 
-    public void setBeneficios(List<Beneficio> beneficios) {
-        this.beneficios = beneficios;
+    public void setBeneficio(Beneficio beneficio) {
+        this.beneficio = beneficio;
     }
 
     public Date getDataNascimento() {

@@ -28,20 +28,46 @@
                     @form(routes.PessoaController.editar(id), 'id -> "pessoaForm") {
                         <div class="box-body">
                             <div class="col-md-4">
-                            @texto(pessoaForm("nome"), label = "Nome:", placeholder = "Insira o texto")
+                                @texto(pessoaForm("nome"), label = "Nome:", placeholder = "Insira o texto")
                             </div>
                             <div class="col-md-2">
-                            @texto(pessoaForm("telefone"), label = "Telefone:", placeholder = "Insira o telefone")
+                                @texto(pessoaForm("telefone"), label = "Telefone:", placeholder = "Insira o telefone")
                             </div>
-                            <div class="col-md-3">
-                            @texto(pessoaForm("cpf"), label = "CPF:", placeholder = "Insira o cpf")
-                            </div>
-                            <div class="col-md-3">
-                            @texto(pessoaForm("email"), label = "Email:", placeholder = "Insira o email")
-                            </div>
-                                <!-- Date -->
                             <div class="col-md-2">
-                            @data(pessoaForm("dataAdmissao"), label = "Data de Admissão:", placeholder = "Insira a data")
+                                @texto(pessoaForm("cpf"), label = "CPF:", placeholder = "Insira o cpf")
+                            </div>
+                            <div class="col-md-3">
+                                @texto(pessoaForm("email"), label = "Email:", placeholder = "Insira o email")
+                            </div>
+                            <div class="col-md-2">
+                                @data(pessoaForm("dataAdmissao"), label = "Data de Admissão:", placeholder = "Insira a data")
+                            </div>
+                            <div class="col-md-2">
+                                @select(
+                                    pessoaForm("area.id"),
+                                    options(Area.options),
+                                    '_label -> "Area:", '_default -> "-- Selecione a área --",
+                                    'class -> "form-control",
+                                    '_showConstraints -> false
+                                )
+                            </div>
+                            <div class="col-md-2">
+                                @select(
+                                    pessoaForm("cargo.id"),
+                                    options(Cargo.options),
+                                    '_label -> "Cargo:", '_default -> "-- Selecione o Cargo --",
+                                    'class -> "form-control",
+                                    '_showConstraints -> false
+                                )
+                            </div>
+                            <div class="col-md-2">
+                                @select(
+                                    pessoaForm("beneficio.id"),
+                                    options(Beneficio.options),
+                                    '_label -> "Benefício:", '_default -> "-- Selecione o Benefício --",
+                                    'class -> "form-control",
+                                    '_showConstraints -> false
+                                )
                             </div>
                         </div>
                             <!-- /.box-body -->

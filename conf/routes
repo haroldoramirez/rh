@@ -10,13 +10,13 @@ GET     /count                      controllers.CountController.count
 GET     /message                    controllers.AsyncController.message
 
 # Colaborador Telas
-GET     /colaborador/novo/                      controllers.PessoaController.telaNovo()
+GET     /colaborador/novo/                      controllers.PessoaController.telaNovo(id: Long ?= 0)
 GET		/colaborador/detalhe/:id			    controllers.PessoaController.telaDetalhe(id:Long)
 GET     /colaborador/editar/:id                 controllers.PessoaController.telaEditar(id:Long)
 GET     /colaborador/lista/todos                controllers.PessoaController.telaLista()
 
 # Colaborador Servicos
-POST    /colaborador                            controllers.PessoaController.inserir()
+POST    /colaborador                            controllers.PessoaController.inserir(id: Long ?= 0)
 POST	/colaborador/:id/remover                controllers.PessoaController.remover(id:Long)
 POST    /colaborador/editar/:id                 controllers.PessoaController.editar(id:Long)
 

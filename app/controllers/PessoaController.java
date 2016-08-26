@@ -1,14 +1,16 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
-import models.Pessoa;
+import models.*;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
+import validators.PessoaFormData;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 public class PessoaController extends Controller {
@@ -19,9 +21,16 @@ public class PessoaController extends Controller {
     /**
      * @return noticia form if auth OK or not authorized
      */
-    public Result telaNovo() {
-        Form<Pessoa> pessoaForm = formFactory.form(Pessoa.class);
-        return ok(views.html.colaboradores.create.render(pessoaForm));
+    public Result telaNovo(Long id) {
+
+        PessoaFormData pessoaData = (id == 0) ? new PessoaFormData() : models.Pessoa.makePessoaFormData(id);
+
+        Form<PessoaFormData> pessoaForm = formFactory.form(PessoaFormData.class);
+
+        return ok(views.html.colaboradores.create.render(pessoaForm, Area.makeAreaMap(pessoaData),
+                Beneficio.makeBeneficioMap(pessoaData),
+                Cargo.makeCargoMap(pessoaData),
+                Genero.makeGeneroMap(pessoaData), Tipo.makeTipoMap(pessoaData), EstadoCivil.makeEstadoCivilMap(pessoaData)));
     }
 
     /**
@@ -32,13 +41,13 @@ public class PessoaController extends Controller {
             Pessoa pessoa = Ebean.find(Pessoa.class, id);
 
             if (pessoa == null) {
-                return notFound(views.html.mensagens.colaborador.erro.render());
+                return notFound(views.html.mensagens.colaborador.erro.render("Objeto não encontrado."));
             }
 
             return ok(views.html.colaboradores.detail.render(pessoa));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.colaborador.erro.render());
+            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString()));
         }
     }
 
@@ -61,7 +70,7 @@ public class PessoaController extends Controller {
             return ok(views.html.colaboradores.list.render(pessoas, ""));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.colaborador.erro.render());
+            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString()));
         }
     }
 
@@ -70,10 +79,36 @@ public class PessoaController extends Controller {
      *
      * @return a render view to inform OK
      */
-    public Result inserir() {
-        Pessoa pessoa = formFactory.form(Pessoa.class).bindFromRequest().get();
-        pessoa.save();
-        return created(views.html.mensagens.colaborador.cadastrado.render(pessoa.getNome()));
+    public Result inserir(Long id) {
+        PessoaFormData pessoaData = (id == 0) ? new PessoaFormData() : models.Pessoa.makePessoaFormData(id);
+
+        //Resgata os dados do formulario atraves de uma requisicao e realiza a validacao dos campos
+        Form<PessoaFormData> formData = formFactory.form(PessoaFormData.class).bindFromRequest();
+
+        //se existir erros nos campos do formulario retorne o LivroFormData com os erros
+        if (formData.hasErrors()) {
+            return badRequest(views.html.colaboradores.create.render(formData, Area.makeAreaMap(pessoaData),
+                    Beneficio.makeBeneficioMap(pessoaData),
+                    Cargo.makeCargoMap(pessoaData),
+                    Genero.makeGeneroMap(pessoaData), Tipo.makeTipoMap(pessoaData), EstadoCivil.makeEstadoCivilMap(pessoaData)));
+        }
+        else {
+            try {
+                //Converte os dados do formularios para uma instancia
+                Pessoa pessoa = Pessoa.makeInstance(formData.get());
+                pessoa.setDataCadastro(new Date());
+                pessoa.save();
+                return created(views.html.mensagens.colaborador.cadastrado.render(pessoa.getNome()));
+            } catch (Exception e) {
+                Logger.error(e.getMessage());
+                formData.reject("Não foi possível cadastrar, erro interno de sistema.");
+                return badRequest(views.html.colaboradores.create.render(formData, Area.makeAreaMap(pessoaData),
+                        Beneficio.makeBeneficioMap(pessoaData),
+                        Cargo.makeCargoMap(pessoaData),
+                        Genero.makeGeneroMap(pessoaData), Tipo.makeTipoMap(pessoaData), EstadoCivil.makeEstadoCivilMap(pessoaData)));
+            }
+
+        }
 
     }
 
@@ -88,12 +123,29 @@ public class PessoaController extends Controller {
     }
 
     /**
-     * Remove a noticia from a id
+     * Remove from a id
      *
      * @param id variavel identificadora
-     * @return ok noticia removed
+     * @return ok removed
      */
     public Result remover(Long id) {
-        return TODO;
+        String pessoaNome;
+
+        try {
+            //busca para ser excluido
+            Pessoa pessoa = Ebean.find(Pessoa.class, id);
+
+            if (pessoa == null) {
+                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado."));
+            }
+
+            pessoaNome = pessoa.getNome();
+
+            Ebean.delete(pessoa);
+            return ok(views.html.mensagens.colaborador.removido.render(pessoaNome));
+        } catch (Exception e) {
+            Logger.error(e.toString());
+            return badRequest(views.html.mensagens.area.erro.render(e.toString()));
+        }
     }
 }

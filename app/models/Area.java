@@ -4,14 +4,13 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import play.data.format.Formats;
 import validators.AreaFormData;
+import validators.PessoaFormData;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class Area extends Model {
@@ -106,4 +105,32 @@ public class Area extends Model {
         }
         return options;
     }
+
+    /**
+     * Create a map of Area name -> boolean where the boolean is true if the Area corresponds to the student.
+     * @param cadastro A student with a Area.
+     * @return A map of Area to boolean indicating which one is the student's Area.
+     */
+    public static Map<String, Boolean> makeAreaMap(PessoaFormData cadastro) {
+        Map<String, Boolean> areaMap = new TreeMap<>();
+        for (Area area : Ebean.find(Area.class).findList()) {
+            areaMap.put(area.getNome(), cadastro!=null && (cadastro.area != null && cadastro.area.equals(area.getNome())));
+        }
+        return areaMap;
+    }
+
+    /**
+     * Return the GradeLevel instance in the database with name 'levelName' or null if not found.
+     * @param nome The Level name.
+     * @return The GradeLevel instance, or null if not found.
+     */
+    public static Area findArea(String nome) {
+        for (Area area : Ebean.find(Area.class).findList()) {
+            if (nome.equals(area.getNome())) {
+                return area;
+            }
+        }
+        return null;
+    }
+
 }

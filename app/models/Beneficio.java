@@ -4,12 +4,16 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import play.data.format.Formats;
 import validators.BeneficioFormData;
+import validators.PessoaFormData;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Entity
 public class Beneficio extends Model {
@@ -82,4 +86,42 @@ public class Beneficio extends Model {
     public void setDataAlteracao(Date dataAlteracao) {
         this.dataAlteracao = dataAlteracao;
     }
+
+    public static Finder<Long, Beneficio> find = new Finder<>(Beneficio.class);
+
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap<>();
+        for (Beneficio b : Beneficio.find.orderBy("nome").findList()) {
+            options.put(b.id.toString(),b.nome);
+        }
+        return options;
+    }
+
+    /**
+     * Create a map of Area name -> boolean where the boolean is true if the Area corresponds to the student.
+     * @param cadastro A student with a Area.
+     * @return A map of Area to boolean indicating which one is the student's Area.
+     */
+    public static Map<String, Boolean> makeBeneficioMap(PessoaFormData cadastro) {
+        Map<String, Boolean> beneficioMap = new TreeMap<>();
+        for (Beneficio beneficio : Ebean.find(Beneficio.class).findList()) {
+            beneficioMap.put(beneficio.getNome(), cadastro!=null && (cadastro.beneficio != null && cadastro.beneficio.equals(beneficio.getNome())));
+        }
+        return beneficioMap;
+    }
+
+    /**
+     * Return the GradeLevel instance in the database with name 'levelName' or null if not found.
+     * @param nome The Level name.
+     * @return The GradeLevel instance, or null if not found.
+     */
+    public static Beneficio findBeneficio(String nome) {
+        for (Beneficio beneficio : Ebean.find(Beneficio.class).findList()) {
+            if (nome.equals(beneficio.getNome())) {
+                return beneficio;
+            }
+        }
+        return null;
+    }
+
 }
