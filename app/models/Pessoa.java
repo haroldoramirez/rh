@@ -40,13 +40,11 @@ public class Pessoa extends Model {
 
     private String email;
 
-    private String escolaridade;
-
     private String salario;
 
     private String nomeBanco;
 
-    private String contaAgencia;
+    private String nomeAgencia;
 
     private String contaNumero;
 
@@ -55,6 +53,10 @@ public class Pessoa extends Model {
     private String saldoHoras;
 
     private String numeroPis;
+
+    //muitas pessoas tem uma escolaridade
+    @ManyToOne
+    private Escolaridade escolaridade;
 
     //muitas pessoas tem um genero
     @ManyToOne
@@ -136,10 +138,10 @@ public class Pessoa extends Model {
                   String telefone,
                   String celular,
                   String email,
-                  String escolaridade,
+                  Escolaridade escolaridade,
                   String salario,
                   String nomeBanco,
-                  String contaAgencia,
+                  String nomeAgencia,
                   String contaNumero,
                   String contaDigito,
                   String saldoHoras,
@@ -170,7 +172,7 @@ public class Pessoa extends Model {
         this.setEscolaridade(escolaridade);
         this.setSalario(salario);
         this.setNomeBanco(nomeBanco);
-        this.setContaAgencia(contaAgencia);
+        this.setNomeAgencia(nomeAgencia);
         this.setContaNumero(contaNumero);
         this.setContaDigito(contaDigito);
         this.setSaldoHoras(saldoHoras);
@@ -201,10 +203,10 @@ public class Pessoa extends Model {
         pessoa.setTelefone(formData.telefone);
         pessoa.setCelular(formData.celular);
         pessoa.setEmail(formData.email);
-        pessoa.setEscolaridade(formData.escolaridade);
+        pessoa.setEscolaridade(Escolaridade.findEscolaridade(formData.escolaridade));
         pessoa.setSalario(formData.salario);
         pessoa.setNomeBanco(formData.nomeBanco);
-        pessoa.setContaAgencia(formData.contaAgencia);
+        pessoa.setNomeAgencia(formData.nomeAgencia);
         pessoa.setContaNumero(formData.contaNumero);
         pessoa.setContaDigito(formData.contaDigito);
         pessoa.setSaldoHoras(formData.saldoHoras);
@@ -229,7 +231,35 @@ public class Pessoa extends Model {
             throw new RuntimeException("Objeto não encontrado");
         }
 
-        return new PessoaFormData(pessoa.nome);
+        return new PessoaFormData(pessoa.nome,
+                pessoa.cpf,
+                pessoa.localNascimento,
+                pessoa.ufNascimento,
+                pessoa.nomeConjuge,
+                pessoa.nomePai,
+                pessoa.nomeMae,
+                pessoa.rg,
+                pessoa.orgaoEmissorRg,
+                pessoa.centroCusto,
+                pessoa.telefone,
+                pessoa.celular,
+                pessoa.email,
+                pessoa.escolaridade,
+                pessoa.salario,
+                pessoa.nomeBanco,
+                pessoa.nomeAgencia,
+                pessoa.contaNumero,
+                pessoa.contaDigito,
+                pessoa.saldoHoras,
+                pessoa.numeroPis,
+                pessoa.genero,
+                pessoa.estadoCivil,
+                pessoa.tipo,
+                pessoa.endereco,
+                pessoa.cargo,
+                pessoa.area,
+                pessoa.dataNascimento,
+                pessoa.dataAdmissao);
     }
 
     public Long getId() {
@@ -344,11 +374,11 @@ public class Pessoa extends Model {
         this.email = email;
     }
 
-    public String getEscolaridade() {
+    public Escolaridade getEscolaridade() {
         return escolaridade;
     }
 
-    public void setEscolaridade(String escolaridade) {
+    public void setEscolaridade(Escolaridade escolaridade) {
         this.escolaridade = escolaridade;
     }
 
@@ -368,12 +398,12 @@ public class Pessoa extends Model {
         this.nomeBanco = nomeBanco;
     }
 
-    public String getContaAgencia() {
-        return contaAgencia;
+    public String getNomeAgencia() {
+        return nomeAgencia;
     }
 
-    public void setContaAgencia(String contaAgencia) {
-        this.contaAgencia = contaAgencia;
+    public void setNomeAgencia(String nomeAgencia) {
+        this.nomeAgencia = nomeAgencia;
     }
 
     public String getContaNumero() {

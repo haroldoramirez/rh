@@ -27,10 +27,14 @@ public class PessoaController extends Controller {
 
         Form<PessoaFormData> pessoaForm = formFactory.form(PessoaFormData.class);
 
-        return ok(views.html.colaboradores.create.render(pessoaForm, Area.makeAreaMap(pessoaData),
+        return ok(views.html.colaboradores.create.render(pessoaForm,
+                Area.makeAreaMap(pessoaData),
                 Beneficio.makeBeneficioMap(pessoaData),
                 Cargo.makeCargoMap(pessoaData),
-                Genero.makeGeneroMap(pessoaData), Tipo.makeTipoMap(pessoaData), EstadoCivil.makeEstadoCivilMap(pessoaData)));
+                Genero.makeGeneroMap(pessoaData),
+                Tipo.makeTipoMap(pessoaData),
+                EstadoCivil.makeEstadoCivilMap(pessoaData),
+                Escolaridade.makeEscolaridadeMap(pessoaData)));
     }
 
     /**
@@ -87,10 +91,14 @@ public class PessoaController extends Controller {
 
         //se existir erros nos campos do formulario retorne o LivroFormData com os erros
         if (formData.hasErrors()) {
-            return badRequest(views.html.colaboradores.create.render(formData, Area.makeAreaMap(pessoaData),
+            return badRequest(views.html.colaboradores.create.render(formData,
+                    Area.makeAreaMap(pessoaData),
                     Beneficio.makeBeneficioMap(pessoaData),
                     Cargo.makeCargoMap(pessoaData),
-                    Genero.makeGeneroMap(pessoaData), Tipo.makeTipoMap(pessoaData), EstadoCivil.makeEstadoCivilMap(pessoaData)));
+                    Genero.makeGeneroMap(pessoaData),
+                    Tipo.makeTipoMap(pessoaData),
+                    EstadoCivil.makeEstadoCivilMap(pessoaData),
+                    Escolaridade.makeEscolaridadeMap(pessoaData)));
         }
         else {
             try {
@@ -102,10 +110,14 @@ public class PessoaController extends Controller {
             } catch (Exception e) {
                 Logger.error(e.getMessage());
                 formData.reject("Não foi possível cadastrar, erro interno de sistema.");
-                return badRequest(views.html.colaboradores.create.render(formData, Area.makeAreaMap(pessoaData),
+                return badRequest(views.html.colaboradores.create.render(formData,
+                        Area.makeAreaMap(pessoaData),
                         Beneficio.makeBeneficioMap(pessoaData),
                         Cargo.makeCargoMap(pessoaData),
-                        Genero.makeGeneroMap(pessoaData), Tipo.makeTipoMap(pessoaData), EstadoCivil.makeEstadoCivilMap(pessoaData)));
+                        Genero.makeGeneroMap(pessoaData),
+                        Tipo.makeTipoMap(pessoaData),
+                        EstadoCivil.makeEstadoCivilMap(pessoaData),
+                        Escolaridade.makeEscolaridadeMap(pessoaData)));
             }
 
         }

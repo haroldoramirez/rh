@@ -1,8 +1,7 @@
 @(field: Field, label: String = "", optionMap: Map[String, Boolean], isMultiple: Boolean)
 
 <div class="form-group @if(field.hasErrors) {has-error}">
-    <label>@label</label>
-    <span class="help-block">@{field.error.map { error => error.message }}</span>
+    <label>@label</label><span class="pull-right text-red">@{field.error.map { error => error.message }}</span>
         <select
             class="form-control"
             id="@field.id"

@@ -36,6 +36,14 @@ create table endereco (
   constraint pk_endereco primary key (id)
 );
 
+create table escolaridade (
+  id                            bigserial not null,
+  nome                          varchar(255),
+  data_cadastro                 date,
+  data_alteracao                date,
+  constraint pk_escolaridade primary key (id)
+);
+
 create table estado_civil (
   id                            bigserial not null,
   nome                          varchar(255),
@@ -67,14 +75,14 @@ create table pessoa (
   telefone                      varchar(255),
   celular                       varchar(255),
   email                         varchar(255),
-  escolaridade                  varchar(255),
   salario                       varchar(255),
   nome_banco                    varchar(255),
-  conta_agencia                 varchar(255),
+  nome_agencia                  varchar(255),
   conta_numero                  varchar(255),
   conta_digito                  varchar(255),
   saldo_horas                   varchar(255),
   numero_pis                    varchar(255),
+  escolaridade_id               bigint,
   genero_id                     bigint,
   estado_civil_id               bigint,
   tipo_id                       bigint,
@@ -101,6 +109,9 @@ create table tipo (
   constraint pk_tipo primary key (id)
 );
 
+alter table pessoa add constraint fk_pessoa_escolaridade_id foreign key (escolaridade_id) references escolaridade (id) on delete restrict on update restrict;
+create index ix_pessoa_escolaridade_id on pessoa (escolaridade_id);
+
 alter table pessoa add constraint fk_pessoa_genero_id foreign key (genero_id) references genero (id) on delete restrict on update restrict;
 create index ix_pessoa_genero_id on pessoa (genero_id);
 
@@ -124,6 +135,9 @@ create index ix_pessoa_beneficio_id on pessoa (beneficio_id);
 
 
 # --- !Downs
+
+alter table if exists pessoa drop constraint if exists fk_pessoa_escolaridade_id;
+drop index if exists ix_pessoa_escolaridade_id;
 
 alter table if exists pessoa drop constraint if exists fk_pessoa_genero_id;
 drop index if exists ix_pessoa_genero_id;
@@ -153,6 +167,8 @@ drop table if exists beneficio cascade;
 drop table if exists cargo cascade;
 
 drop table if exists endereco cascade;
+
+drop table if exists escolaridade cascade;
 
 drop table if exists estado_civil cascade;
 

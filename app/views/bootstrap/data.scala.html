@@ -1,7 +1,7 @@
 @(field: Field, label: String = "", placeholder: String = "", help: String = "")
 
 <div class="form-group @if(field.hasErrors) {has-error}">
-    <label>@label</label>
+    <label>@label</label><span class="pull-right text-red">@{field.error.map { error => error.message }}</span>
     <input
         type="text"
         class="form-control"
@@ -10,5 +10,4 @@
         value="@field.value.getOrElse("")"
         placeholder="@placeholder"
         autocomplete="off">
-    <span class="help-block">@{field.error.map { error => error.message }}</span>
 </div>

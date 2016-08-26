@@ -4,3 +4,8 @@
     '_label -> "Area", '_default -> "-- Choose a área --",
     '_showConstraints -> false
 )
+
+<div class="box-footer">
+    <button data-loading-text="Salvando..." id="btnSalvar" type="submit" class="btn btn-success">Salvar</button>
+    <a href="@routes.PessoaController.telaLista" type="reset" class="btn btn-default">Voltar</a>
+</div>
