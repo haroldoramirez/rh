@@ -1,34 +1,3 @@
-# --- Sample dataset
-
-# --- !Ups
-
-insert into genero (nome,data_cadastro,data_alteracao) values ('Masculino','now','now');
-insert into genero (nome,data_cadastro,data_alteracao) values ('Feminino','now','now');
-
-insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Solteiro','now','now');
-insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Casado','now','now');
-
-insert into tipo (nome,data_cadastro,data_alteracao) values ('Colaborador','now','now');
-insert into tipo (nome,data_cadastro,data_alteracao) values ('Bolsista','now','now');
-
-insert into beneficio (nome,data_cadastro,data_alteracao) values ('Vale Transporte','now','now');
-
-insert into cargo (nome,data_cadastro,data_alteracao) values ('Analista de Sistemas','now','now');
-insert into cargo (nome,data_cadastro,data_alteracao) values ('Gestor','now','now');
-insert into cargo (nome,data_cadastro,data_alteracao) values ('Analista de Comunicação','now','now');
-insert into cargo (nome,data_cadastro,data_alteracao) values ('Diretor Técnico','now','now');
-
-insert into area (nome,nome_gerente,data_cadastro,data_alteracao) values ('Núcleo Pedagógico','Marcelo','now','now');
-insert into area (nome,nome_gerente,data_cadastro,data_alteracao) values ('Laboratório','Rafael','now','now');
-
-insert into escolaridade (nome,data_cadastro,data_alteracao) values ('Ensino Médio Completo','now','now');
-insert into escolaridade (nome,data_cadastro,data_alteracao) values ('Ensino Técnico','now','now');
-insert into escolaridade (nome,data_cadastro,data_alteracao) values ('Graduação (Bacharelado)','now','now');
-insert into escolaridade (nome,data_cadastro,data_alteracao) values ('Graduação (Licenciatura)','now','now');
-insert into escolaridade (nome,data_cadastro,data_alteracao) values ('Especialização (Lato Sensu)','now','now');
-insert into escolaridade (nome,data_cadastro,data_alteracao) values ('Mestrado (Stricto Sensu)','now','now');
-insert into escolaridade (nome,data_cadastro,data_alteracao) values ('Doutorado (Stricto Sensu)','now','now');
-
 insert into pais (nome) values ('Afghanistan');
 insert into pais (nome) values ('Albania');
 insert into pais (nome) values ('Algeria');
@@ -271,4 +240,3 @@ insert into pais (nome) values ('Western Sahara');
 insert into pais (nome) values ('Yemen');
 insert into pais (nome) values ('Zambia');
 insert into pais (nome) values ('Zimbabwe');
-

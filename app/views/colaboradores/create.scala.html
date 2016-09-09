@@ -5,7 +5,8 @@
         generos:Map[String,Boolean],
         tipos:Map[String,Boolean],
         estadosCivis:Map[String,Boolean],
-        escolaridades:Map[String,Boolean])
+        escolaridades:Map[String,Boolean],
+        paises:Map[String,Boolean])
 
 @import helper._
 @import bootstrap._
@@ -128,9 +129,6 @@
                             <div class="col-md-3">
                                 @texto(pessoaForm("nomeAgencia"), label = "Nome da Agência:", placeholder = "Insira o nome da agência")
                             </div>
-                            <div class="col-md-1">
-                                @texto(pessoaForm("contaDigito"), label = "Dígito:", placeholder = "Insira o dígito")
-                            </div>
                             <div class="col-md-2">
                                 @texto(pessoaForm("contaNumero"), label = "Número da Conta:", placeholder = "Insira o número da conta")
                             </div>
@@ -179,7 +177,7 @@
                                     optionMap = areas,
                                     isMultiple = false)
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-1">
                                 @texto(pessoaForm("salario"), label = "Salário:", placeholder = "Insira o salário")
                             </div>
                         </div>
@@ -192,7 +190,13 @@
                             <h3 class="box-title">Endereço</h3>
                         </div>
                         <div class="box-body">
-
+                            <div class="col-md-2">
+                                @*Select Pais*@
+                                @selecao(pessoaForm("pais"),
+                                    label = "País:",
+                                    optionMap = paises,
+                                    isMultiple = false)
+                            </div>
                         </div>
                         <div class="box-footer">
                             <button data-loading-text="Salvando..." id="btnSalvar" type="submit" class="btn btn-success">Salvar</button>

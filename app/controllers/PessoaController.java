@@ -12,6 +12,7 @@ import validators.PessoaFormData;
 import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class PessoaController extends Controller {
 
@@ -34,7 +35,8 @@ public class PessoaController extends Controller {
                 Genero.makeGeneroMap(pessoaData),
                 Tipo.makeTipoMap(pessoaData),
                 EstadoCivil.makeEstadoCivilMap(pessoaData),
-                Escolaridade.makeEscolaridadeMap(pessoaData)));
+                Escolaridade.makeEscolaridadeMap(pessoaData),
+                Pais.makePaisMap(pessoaData)));
     }
 
     /**
@@ -59,8 +61,28 @@ public class PessoaController extends Controller {
      * @return render edit form with a noticia data
      */
     public Result telaEditar(Long id) {
-        Form<Pessoa> pessoaForm = formFactory.form(Pessoa.class);
-        return ok(views.html.colaboradores.edit.render(id,pessoaForm));
+
+        try {
+            //logica onde instanciamos um objeto que esteja cadastrado na base de dados
+            PessoaFormData pessoaFormData = (id == 0) ? new PessoaFormData() : models.Pessoa.makePessoaFormData(id);
+
+            //apos o objeto ser instanciado levamos os dados para o formdata e os dados serao carregados no form edit
+            Form<PessoaFormData> pessoaForm = formFactory.form(PessoaFormData.class).fill(pessoaFormData);
+
+            return ok(views.html.colaboradores.edit.render(id, pessoaForm, Area.makeAreaMap(pessoaFormData),
+                    Beneficio.makeBeneficioMap(pessoaFormData),
+                    Cargo.makeCargoMap(pessoaFormData),
+                    Genero.makeGeneroMap(pessoaFormData),
+                    Tipo.makeTipoMap(pessoaFormData),
+                    EstadoCivil.makeEstadoCivilMap(pessoaFormData),
+                    Escolaridade.makeEscolaridadeMap(pessoaFormData),
+                    Pais.makePaisMap(pessoaFormData)));
+        } catch (Exception e) {
+            Logger.error(e.toString());
+            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString()));
+        }
+
+
     }
 
     /**
@@ -98,7 +120,8 @@ public class PessoaController extends Controller {
                     Genero.makeGeneroMap(pessoaData),
                     Tipo.makeTipoMap(pessoaData),
                     EstadoCivil.makeEstadoCivilMap(pessoaData),
-                    Escolaridade.makeEscolaridadeMap(pessoaData)));
+                    Escolaridade.makeEscolaridadeMap(pessoaData),
+                    Pais.makePaisMap(pessoaData)));
         }
         else {
             try {
@@ -109,7 +132,7 @@ public class PessoaController extends Controller {
                 return created(views.html.mensagens.colaborador.cadastrado.render(pessoa.getNome()));
             } catch (Exception e) {
                 Logger.error(e.getMessage());
-                formData.reject("Não foi possível cadastrar, erro interno de sistema.");
+                formData.reject("Erro interno de sistema. " + e);
                 return badRequest(views.html.colaboradores.create.render(formData,
                         Area.makeAreaMap(pessoaData),
                         Beneficio.makeBeneficioMap(pessoaData),
@@ -117,7 +140,8 @@ public class PessoaController extends Controller {
                         Genero.makeGeneroMap(pessoaData),
                         Tipo.makeTipoMap(pessoaData),
                         EstadoCivil.makeEstadoCivilMap(pessoaData),
-                        Escolaridade.makeEscolaridadeMap(pessoaData)));
+                        Escolaridade.makeEscolaridadeMap(pessoaData),
+                        Pais.makePaisMap(pessoaData)));
             }
 
         }
@@ -131,7 +155,50 @@ public class PessoaController extends Controller {
      * @return a noticia updated with a form
      */
     public Result editar(Long id) {
-        return TODO;
+
+        //logica onde instanciamos um objeto que esteja cadastrado na base de dados
+        PessoaFormData pessoaFormData = (id == 0) ? new PessoaFormData() : models.Pessoa.makePessoaFormData(id);
+
+
+        //Resgata os dados do formulario atraves de uma requisicao e realiza a validacao dos campos
+        Form<PessoaFormData> formData = formFactory.form(PessoaFormData.class).bindFromRequest();
+
+        //se existir erros nos campos do formulario retorne o LivroFormData com os erros
+        if (formData.hasErrors()) {
+            return badRequest(views.html.colaboradores.edit.render(id, formData,
+                    Area.makeAreaMap(pessoaFormData),
+                    Beneficio.makeBeneficioMap(pessoaFormData),
+                    Cargo.makeCargoMap(pessoaFormData),
+                    Genero.makeGeneroMap(pessoaFormData),
+                    Tipo.makeTipoMap(pessoaFormData),
+                    EstadoCivil.makeEstadoCivilMap(pessoaFormData),
+                    Escolaridade.makeEscolaridadeMap(pessoaFormData),
+                    Pais.makePaisMap(pessoaFormData)));
+        }
+        else {
+            Pessoa pessoa = Pessoa.makeInstance(formData.get());
+
+            try {
+                pessoa.setId(id);
+                pessoa.setDataAlteracao(new Date());
+                pessoa.update();
+                return ok(views.html.mensagens.colaborador.alterado.render(pessoa.getNome()));
+            } catch (Exception e) {
+                Logger.error(e.getMessage());
+                formData.reject("Erro interno de sistema. " + e);
+                return badRequest(views.html.colaboradores.edit.render(id,formData,
+                        Area.makeAreaMap(pessoaFormData),
+                        Beneficio.makeBeneficioMap(pessoaFormData),
+                        Cargo.makeCargoMap(pessoaFormData),
+                        Genero.makeGeneroMap(pessoaFormData),
+                        Tipo.makeTipoMap(pessoaFormData),
+                        EstadoCivil.makeEstadoCivilMap(pessoaFormData),
+                        Escolaridade.makeEscolaridadeMap(pessoaFormData),
+                        Pais.makePaisMap(pessoaFormData)));
+            }
+
+        }
+
     }
 
     /**

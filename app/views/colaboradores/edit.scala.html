@@ -1,4 +1,12 @@
-@(id: Long, pessoaForm: play.data.Form[Pessoa])
+@(id: Long, pessoaForm: play.data.Form[validators.PessoaFormData],
+        areas:Map[String,Boolean],
+        beneficios:Map[String,Boolean],
+        cargos:Map[String,Boolean],
+        generos:Map[String,Boolean],
+        tipos:Map[String,Boolean],
+        estadosCivis:Map[String,Boolean],
+        escolaridades:Map[String,Boolean],
+        paises:Map[String,Boolean])
 
 @import helper._
 @import bootstrap._
@@ -8,6 +16,7 @@
     <section class="content-header">
         <h1>
             Editar
+            <small>Colaborador</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
@@ -19,68 +28,183 @@
         <!-- Main content -->
     <section class="content">
         <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Informações pessoais</h3>
-                    </div>
-                        <!-- form start -->
-                    @form(routes.PessoaController.editar(id), 'id -> "pessoaForm") {
+            <!-- form start -->
+            @form(routes.PessoaController.editar(id), 'id -> "pessoaForm") {
+
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Informações Pessoais</h3>
+                        </div>
+
+                        @if(pessoaForm.hasGlobalErrors) {
+                            <div class="col-md-6">
+                                <div class="alert alert-danger">
+                                    <strong><i class="icon fa fa-ban"></i>Não foi possível salvar.</strong>
+                                    <p>Descrição: @pessoaForm.globalError.message</p>
+                                </div>
+                            </div>
+                        }
+
                         <div class="box-body">
                             <div class="col-md-4">
-                                @texto(pessoaForm("nome"), label = "Nome:", placeholder = "Insira o texto")
+                                @texto(pessoaForm("nome"), label = "Nome:", placeholder = "Insira o nome")
                             </div>
                             <div class="col-md-2">
                                 @texto(pessoaForm("telefone"), label = "Telefone:", placeholder = "Insira o telefone")
                             </div>
                             <div class="col-md-2">
-                                @texto(pessoaForm("cpf"), label = "CPF:", placeholder = "Insira o cpf")
+                                @texto(pessoaForm("celular"), label = "Celular:", placeholder = "Insira o celular")
+                            </div>
+                            <div class="col-md-2">
+                                @data(pessoaForm("dataNascimento"), label = "Data de Nascimento:", placeholder = "Insira a data de nascimento")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("localNascimento"), label = "Local de Nascimento:", placeholder = "Insira o local de nascimento")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("nomeConjuge"), label = "Nome do Cônjuge:", placeholder = "Insira o nome cônjuge")
                             </div>
                             <div class="col-md-3">
+                                @texto(pessoaForm("nomePai"), label = "Nome do Pai:", placeholder = "Insira o nome do pai")
+                            </div>
+                            <div class="col-md-3">
+                                @texto(pessoaForm("nomeMae"), label = "Nome da Mãe:", placeholder = "Insira o nome mãe")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("rg"), label = "RG:", placeholder = "Insira o rg")
+                            </div>
+                            <div class="col-md-2">
+                                @data(pessoaForm("dataEmissaoRg"), label = "Data de Emissão:", placeholder = "Insira a data de emissão do rg")
+                            </div>
+                            <div class="col-md-1">
+                                @texto(pessoaForm("orgaoEmissorRg"), label = "Orgão Emissor:", placeholder = "Insira o orgão emissor do rg")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("numeroPis"), label = "Número do PIS:", placeholder = "Insira o número do pis")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("cpf"), label = "CPF:", placeholder = "Insira o cpf")
+                            </div>
+                            <div class="col-md-2">
                                 @texto(pessoaForm("email"), label = "Email:", placeholder = "Insira o email")
                             </div>
                             <div class="col-md-2">
-                                @data(pessoaForm("dataAdmissao"), label = "Data de Admissão:", placeholder = "Insira a data")
+                                @*Select Genero*@
+                                @selecao(pessoaForm("genero"),
+                                    label = "Gênero:",
+                                    optionMap = generos,
+                                    isMultiple = false)
                             </div>
                             <div class="col-md-2">
-                                @select(
-                                    pessoaForm("area.id"),
-                                    options(Area.options),
-                                    '_label -> "Area:", '_default -> "-- Selecione a área --",
-                                    'class -> "form-control",
-                                    '_showConstraints -> false
-                                )
+                                @*Select Estado Civil*@
+                                @selecao(pessoaForm("estadoCivil"),
+                                    label = "Estado Civil:",
+                                    optionMap = estadosCivis,
+                                    isMultiple = false)
                             </div>
                             <div class="col-md-2">
-                                @select(
-                                    pessoaForm("cargo.id"),
-                                    options(Cargo.options),
-                                    '_label -> "Cargo:", '_default -> "-- Selecione o Cargo --",
-                                    'class -> "form-control",
-                                    '_showConstraints -> false
-                                )
-                            </div>
-                            <div class="col-md-2">
-                                @select(
-                                    pessoaForm("beneficio.id"),
-                                    options(Beneficio.options),
-                                    '_label -> "Benefício:", '_default -> "-- Selecione o Benefício --",
-                                    'class -> "form-control",
-                                    '_showConstraints -> false
-                                )
+                                @*Select Escolaridade*@
+                                @selecao(pessoaForm("escolaridade"),
+                                    label = "Escolaridade:",
+                                    optionMap = escolaridades,
+                                    isMultiple = false)
                             </div>
                         </div>
                             <!-- /.box-body -->
+                    </div>
+                        <!-- /.box -->
+                </div>
+                <!-- /.col -->
 
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Informações Bancárias</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-3">
+                            @texto(pessoaForm("nomeBanco"), label = "Nome do Banco:", placeholder = "Insira o nome do banco")
+                            </div>
+                            <div class="col-md-3">
+                            @texto(pessoaForm("nomeAgencia"), label = "Nome da Agência:", placeholder = "Insira o nome da agência")
+                            </div>
+                            <div class="col-md-2">
+                            @texto(pessoaForm("contaNumero"), label = "Número da Conta:", placeholder = "Insira o número da conta")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Informações Profissionais</h3>
+                        </div>
+                        <div class="box-body">
+                                <!-- Date -->
+                            <div class="col-md-2">
+                                @data(pessoaForm("dataAdmissao"), label = "Data de Admissão:", placeholder = "Insira a data de admissão")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("centroCusto"), label = "Centro de Custo:", placeholder = "Insira centro de curso")
+                            </div>
+                            <div class="col-md-2">
+                                @*Select Tipo*@
+                                @selecao(pessoaForm("tipo"),
+                                    label = "Tipo:",
+                                    optionMap = tipos,
+                                    isMultiple = false)
+                            </div>
+                            <div class="col-md-2">
+                                @*Select Cargo*@
+                                @selecao(pessoaForm("cargo"),
+                                    label = "Cargo:",
+                                    optionMap = cargos,
+                                    isMultiple = false)
+                            </div>
+                            <div class="col-md-2">
+                                @*Select Beneficio*@
+                                @selecao(pessoaForm("beneficio"),
+                                    label = "Benefício:",
+                                    optionMap = beneficios,
+                                    isMultiple = false)
+                            </div>
+                            <div class="col-md-2">
+                                @*Select Area*@
+                                @selecao(pessoaForm("area"),
+                                    label = "Área:",
+                                    optionMap = areas,
+                                    isMultiple = false)
+                            </div>
+                            <div class="col-md-1">
+                                @texto(pessoaForm("salario"), label = "Salário:", placeholder = "Insira o salário")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Endereço</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-2">
+                                @*Select Pais*@
+                                @selecao(pessoaForm("pais"),
+                                    label = "País:",
+                                    optionMap = paises,
+                                    isMultiple = false)
+                            </div>
+                        </div>
                         <div class="box-footer">
                             <button data-loading-text="Editando..." id="btnSalvar" type="submit" class="btn btn-warning">Editar</button>
                             <a href="@routes.PessoaController.telaLista" type="reset" class="btn btn-default">Voltar</a>
                         </div>
-                    }
+                    </div>
                 </div>
-                    <!-- /.box -->
-            </div>
-                <!-- /.col -->
+            }
         </div>
             <!-- /.row -->
     </section>
@@ -90,6 +214,14 @@
 <script type="text/javascript">
         //Date picker
         $('#dataAdmissao').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+        $('#dataNascimento').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+        $('#dataEmissaoRg').datepicker({
             autoclose: true,
             format: 'yyyy-mm-dd'
         });
@@ -105,5 +237,10 @@
                     inputs[i].disabled = true;
                 }
             }
+        };
+        window.onload = function() {
+            var form = document.getElementById("pessoaForm");
+            form.elements[0].focus();
+            //inscricaoForm.nome.focus(); codigo alternativo ao anterior
         };
 </script>

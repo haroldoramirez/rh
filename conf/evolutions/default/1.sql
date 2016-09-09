@@ -60,12 +60,17 @@ create table genero (
   constraint pk_genero primary key (id)
 );
 
+create table pais (
+  id                            bigserial not null,
+  nome                          varchar(255),
+  constraint pk_pais primary key (id)
+);
+
 create table pessoa (
   id                            bigserial not null,
   nome                          varchar(255),
   cpf                           varchar(255),
   local_nascimento              varchar(255),
-  uf_nascimento                 varchar(255),
   nome_conjuge                  varchar(255),
   nome_pai                      varchar(255),
   nome_mae                      varchar(255),
@@ -79,14 +84,13 @@ create table pessoa (
   nome_banco                    varchar(255),
   nome_agencia                  varchar(255),
   conta_numero                  varchar(255),
-  conta_digito                  varchar(255),
   saldo_horas                   varchar(255),
   numero_pis                    varchar(255),
   escolaridade_id               bigint,
   genero_id                     bigint,
   estado_civil_id               bigint,
   tipo_id                       bigint,
-  endereco_id                   bigint,
+  pais_id                       bigint,
   cargo_id                      bigint,
   area_id                       bigint,
   beneficio_id                  bigint,
@@ -121,8 +125,8 @@ create index ix_pessoa_estado_civil_id on pessoa (estado_civil_id);
 alter table pessoa add constraint fk_pessoa_tipo_id foreign key (tipo_id) references tipo (id) on delete restrict on update restrict;
 create index ix_pessoa_tipo_id on pessoa (tipo_id);
 
-alter table pessoa add constraint fk_pessoa_endereco_id foreign key (endereco_id) references endereco (id) on delete restrict on update restrict;
-create index ix_pessoa_endereco_id on pessoa (endereco_id);
+alter table pessoa add constraint fk_pessoa_pais_id foreign key (pais_id) references pais (id) on delete restrict on update restrict;
+create index ix_pessoa_pais_id on pessoa (pais_id);
 
 alter table pessoa add constraint fk_pessoa_cargo_id foreign key (cargo_id) references cargo (id) on delete restrict on update restrict;
 create index ix_pessoa_cargo_id on pessoa (cargo_id);
@@ -148,8 +152,8 @@ drop index if exists ix_pessoa_estado_civil_id;
 alter table if exists pessoa drop constraint if exists fk_pessoa_tipo_id;
 drop index if exists ix_pessoa_tipo_id;
 
-alter table if exists pessoa drop constraint if exists fk_pessoa_endereco_id;
-drop index if exists ix_pessoa_endereco_id;
+alter table if exists pessoa drop constraint if exists fk_pessoa_pais_id;
+drop index if exists ix_pessoa_pais_id;
 
 alter table if exists pessoa drop constraint if exists fk_pessoa_cargo_id;
 drop index if exists ix_pessoa_cargo_id;
@@ -173,6 +177,8 @@ drop table if exists escolaridade cascade;
 drop table if exists estado_civil cascade;
 
 drop table if exists genero cascade;
+
+drop table if exists pais cascade;
 
 drop table if exists pessoa cascade;
 

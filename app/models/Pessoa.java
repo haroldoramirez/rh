@@ -20,8 +20,6 @@ public class Pessoa extends Model {
 
     private String localNascimento;
 
-    private String ufNascimento;
-
     private String nomeConjuge;
 
     private String nomePai;
@@ -48,8 +46,6 @@ public class Pessoa extends Model {
 
     private String contaNumero;
 
-    private String contaDigito;
-
     private String saldoHoras;
 
     private String numeroPis;
@@ -70,9 +66,9 @@ public class Pessoa extends Model {
     @ManyToOne
     private Tipo tipo;
 
-    //muitas pessoas tem um endereco
+    //muitas pessoas tem um pais
     @ManyToOne
-    private Endereco endereco;
+    private Pais pais;
 
     //muitas pessoas tem um cargo
     @ManyToOne
@@ -128,7 +124,6 @@ public class Pessoa extends Model {
                   String nome,
                   String cpf,
                   String localNascimento,
-                  String ufNascimento,
                   String nomeConjuge,
                   String nomePai,
                   String nomeMae,
@@ -143,23 +138,22 @@ public class Pessoa extends Model {
                   String nomeBanco,
                   String nomeAgencia,
                   String contaNumero,
-                  String contaDigito,
                   String saldoHoras,
                   String numeroPis,
                   Genero genero,
                   EstadoCivil estadoCivil,
                   Tipo tipo,
-                  Endereco endereco,
+                  Pais pais,
                   Cargo cargo,
                   Area area,
                   Beneficio beneficio,
                   Date dataNascimento,
-                  Date dataAdmissao) {
+                  Date dataAdmissao,
+                  Date dataEmissaoRg) {
         this.setId(id);
         this.setNome(nome);
         this.setCpf(cpf);
         this.setLocalNascimento(localNascimento);
-        this.setUfNascimento(ufNascimento);
         this.setNomeConjuge(nomeConjuge);
         this.setNomePai(nomePai);
         this.setNomeMae(nomeMae);
@@ -174,18 +168,18 @@ public class Pessoa extends Model {
         this.setNomeBanco(nomeBanco);
         this.setNomeAgencia(nomeAgencia);
         this.setContaNumero(contaNumero);
-        this.setContaDigito(contaDigito);
         this.setSaldoHoras(saldoHoras);
         this.setNumeroPis(numeroPis);
         this.setGenero(genero);
         this.setEstadoCivil(estadoCivil);
         this.setTipo(tipo);
-        this.setEndereco(endereco);
+        this.setPais(pais);
         this.setCargo(cargo);
         this.setArea(area);
         this.setBeneficio(beneficio);
         this.setDataNascimento(dataNascimento);
         this.setDataAdmissao(dataAdmissao);
+        this.setDataEmissaoRg(dataEmissaoRg);
     }
 
     public static Pessoa makeInstance(PessoaFormData formData) {
@@ -193,7 +187,6 @@ public class Pessoa extends Model {
         pessoa.setNome(formData.nome);
         pessoa.setCpf(formData.cpf);
         pessoa.setLocalNascimento(formData.localNascimento);
-        pessoa.setUfNascimento(formData.ufNascimento);
         pessoa.setNomeConjuge(formData.nomeConjuge);
         pessoa.setNomePai(formData.nomePai);
         pessoa.setNomeMae(formData.nomeMae);
@@ -208,18 +201,18 @@ public class Pessoa extends Model {
         pessoa.setNomeBanco(formData.nomeBanco);
         pessoa.setNomeAgencia(formData.nomeAgencia);
         pessoa.setContaNumero(formData.contaNumero);
-        pessoa.setContaDigito(formData.contaDigito);
         pessoa.setSaldoHoras(formData.saldoHoras);
         pessoa.setNumeroPis(formData.numeroPis);
         pessoa.setGenero(Genero.findGenero(formData.genero));
         pessoa.setEstadoCivil(EstadoCivil.findEstadoCivil(formData.estadoCivil));
         pessoa.setTipo(Tipo.findTipo(formData.tipo));
-        pessoa.setEndereco(new Endereco());
+        pessoa.setPais(Pais.findPais(formData.pais));
         pessoa.setCargo(Cargo.findCargo(formData.cargo));
         pessoa.setArea(Area.findArea(formData.area));
         pessoa.setBeneficio(Beneficio.findBeneficio(formData.beneficio));
         pessoa.setDataNascimento(formData.dataNascimento);
         pessoa.setDataAdmissao(formData.dataAdmissao);
+        pessoa.setDataEmissaoRg(formData.dataEmissaoRg);
         return pessoa;
     }
 
@@ -234,7 +227,6 @@ public class Pessoa extends Model {
         return new PessoaFormData(pessoa.nome,
                 pessoa.cpf,
                 pessoa.localNascimento,
-                pessoa.ufNascimento,
                 pessoa.nomeConjuge,
                 pessoa.nomePai,
                 pessoa.nomeMae,
@@ -249,17 +241,18 @@ public class Pessoa extends Model {
                 pessoa.nomeBanco,
                 pessoa.nomeAgencia,
                 pessoa.contaNumero,
-                pessoa.contaDigito,
                 pessoa.saldoHoras,
                 pessoa.numeroPis,
                 pessoa.genero,
                 pessoa.estadoCivil,
                 pessoa.tipo,
-                pessoa.endereco,
+                pessoa.pais,
                 pessoa.cargo,
                 pessoa.area,
+                pessoa.beneficio,
                 pessoa.dataNascimento,
-                pessoa.dataAdmissao);
+                pessoa.dataAdmissao,
+                pessoa.dataEmissaoRg);
     }
 
     public Long getId() {
@@ -292,14 +285,6 @@ public class Pessoa extends Model {
 
     public void setLocalNascimento(String localNascimento) {
         this.localNascimento = localNascimento;
-    }
-
-    public String getUfNascimento() {
-        return ufNascimento;
-    }
-
-    public void setUfNascimento(String ufNascimento) {
-        this.ufNascimento = ufNascimento;
     }
 
     public String getNomeConjuge() {
@@ -414,14 +399,6 @@ public class Pessoa extends Model {
         this.contaNumero = contaNumero;
     }
 
-    public String getContaDigito() {
-        return contaDigito;
-    }
-
-    public void setContaDigito(String contaDigito) {
-        this.contaDigito = contaDigito;
-    }
-
     public String getSaldoHoras() {
         return saldoHoras;
     }
@@ -462,12 +439,12 @@ public class Pessoa extends Model {
         this.tipo = tipo;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public Pais getPais() {
+        return pais;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setPais(Pais pais) {
+        this.pais = pais;
     }
 
     public Cargo getCargo() {

@@ -12,7 +12,6 @@ public class PessoaFormData {
     public String nome = "";
     public String cpf = "";
     public String localNascimento = "";
-    public String ufNascimento = "";
     public String nomeConjuge = "";
     public String nomePai = "";
     public String nomeMae = "";
@@ -27,18 +26,18 @@ public class PessoaFormData {
     public String nomeBanco = "";
     public String nomeAgencia = "";
     public String contaNumero = "";
-    public String contaDigito = "";
     public String saldoHoras = "";
     public String numeroPis = "";
     public String genero = "";
     public String estadoCivil;
     public String tipo = "";
-    public String endereco = "";
+    public String pais = "";
     public String cargo = "";
     public String area = "";
     public String beneficio = "";
     public Date dataNascimento = null;
     public Date dataAdmissao = null;
+    public Date dataEmissaoRg = null;
 
 
     /** Necessario para instanciar o form */
@@ -47,7 +46,6 @@ public class PessoaFormData {
     public PessoaFormData(String nome,
                           String cpf,
                           String localNascimento,
-                          String ufNascimento,
                           String nomeConjuge,
                           String nomePai,
                           String nomeMae,
@@ -62,21 +60,21 @@ public class PessoaFormData {
                           String nomeBanco,
                           String nomeAgencia,
                           String contaNumero,
-                          String contaDigito,
                           String saldoHoras,
                           String numeroPis,
                           Genero genero,
                           EstadoCivil estadoCivil,
                           Tipo tipo,
-                          Endereco endereco,
+                          Pais pais,
                           Cargo cargo,
                           Area area,
+                          Beneficio beneficio,
                           Date dataNascimento,
-                          Date dataAdmissao) {
+                          Date dataAdmissao,
+                          Date dataEmissaoRg) {
         this.nome = nome;
-        this.cargo = cpf;
+        this.cpf = cpf;
         this.localNascimento = localNascimento;
-        this.ufNascimento = ufNascimento;
         this.nomeConjuge = nomeConjuge;
         this.nomePai = nomePai;
         this.nomeMae = nomeMae;
@@ -91,17 +89,18 @@ public class PessoaFormData {
         this.nomeBanco = nomeBanco;
         this.nomeAgencia = nomeAgencia;
         this.contaNumero = contaNumero;
-        this.contaDigito = contaDigito;
         this.saldoHoras = saldoHoras;
         this.numeroPis = numeroPis;
         this.genero = genero.getNome();
         this.estadoCivil = estadoCivil.getNome();
         this.tipo = tipo.getNome();
-        this.endereco = endereco.getNomeRua();
+        this.pais = pais.getNome();
         this.cargo = cargo.getNome();
         this.area = area.getNome();
+        this.beneficio = beneficio.getNome();
         this.dataNascimento = dataNascimento;
         this.dataAdmissao = dataAdmissao;
+        this.dataEmissaoRg = dataEmissaoRg;
     }
 
     public List<ValidationError> validate() {
@@ -126,6 +125,34 @@ public class PessoaFormData {
 
         if (escolaridade == null || escolaridade.length() == 0) {
             errors.add(new ValidationError("escolaridade", "Selecione a escolaridade "));
+        }
+
+        if (genero == null || genero.length() == 0) {
+            errors.add(new ValidationError("genero", "Selecione o gênero "));
+        }
+
+        if (estadoCivil == null || estadoCivil.length() == 0) {
+            errors.add(new ValidationError("estadoCivil", "Selecione o estado civil "));
+        }
+
+        if (tipo == null || tipo.length() == 0) {
+            errors.add(new ValidationError("tipo", "Selecione o tipo "));
+        }
+
+        if (pais == null || pais.length() == 0) {
+            errors.add(new ValidationError("pais", "Selecione o país "));
+        }
+
+        if (dataNascimento == null) {
+            errors.add(new ValidationError("dataNascimento", "Selecione a data "));
+        }
+
+        if (dataAdmissao == null) {
+            errors.add(new ValidationError("dataAdmissao", "Selecione a data "));
+        }
+
+        if (dataEmissaoRg == null) {
+            errors.add(new ValidationError("dataEmissaoRg", "Selecione a data "));
         }
 
         return errors.isEmpty() ? null : errors;
