@@ -197,6 +197,21 @@
                                     optionMap = paises,
                                     isMultiple = false)
                             </div>
+                            <div class="col-md-4">
+                                @texto(pessoaForm("endereco"), label = "Endereço:", placeholder = "Insira o endereço")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("bairro"), label = "Bairro:", placeholder = "Insira o bairro")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("cidade"), label = "Cidade:", placeholder = "Insira o cidade")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("cep"), label = "CEP:", placeholder = "Insira o CEP")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("complemento"), label = "Complemento:", placeholder = "Insira o complemento")
+                            </div>
                         </div>
                         <div class="box-footer">
                             <button data-loading-text="Editando..." id="btnSalvar" type="submit" class="btn btn-warning">Editar</button>
@@ -237,10 +252,5 @@
                     inputs[i].disabled = true;
                 }
             }
-        };
-        window.onload = function() {
-            var form = document.getElementById("pessoaForm");
-            form.elements[0].focus();
-            //inscricaoForm.nome.focus(); codigo alternativo ao anterior
         };
 </script>

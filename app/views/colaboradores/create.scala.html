@@ -51,10 +51,10 @@
                                 @texto(pessoaForm("nome"), label = "Nome:", placeholder = "Insira o nome")
                             </div>
                             <div class="col-md-2">
-                                @texto(pessoaForm("telefone"), label = "Telefone:", placeholder = "Insira o telefone")
+                                @telefone(pessoaForm("telefone"), label = "Telefone:", placeholder = "Insira o telefone")
                             </div>
                             <div class="col-md-2">
-                                @texto(pessoaForm("celular"), label = "Celular:", placeholder = "Insira o celular")
+                                @telefone(pessoaForm("celular"), label = "Celular:", placeholder = "Insira o celular")
                             </div>
                             <div class="col-md-2">
                                 @data(pessoaForm("dataNascimento"), label = "Data de Nascimento:", placeholder = "Insira a data de nascimento")
@@ -197,6 +197,21 @@
                                     optionMap = paises,
                                     isMultiple = false)
                             </div>
+                            <div class="col-md-4">
+                                @texto(pessoaForm("endereco"), label = "Endereço:", placeholder = "Insira o endereço")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("bairro"), label = "Bairro:", placeholder = "Insira o bairro")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("cidade"), label = "Cidade:", placeholder = "Insira o cidade")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("cep"), label = "CEP:", placeholder = "Insira o CEP")
+                            </div>
+                            <div class="col-md-2">
+                                @texto(pessoaForm("complemento"), label = "Complemento:", placeholder = "Insira o complemento")
+                            </div>
                         </div>
                         <div class="box-footer">
                             <button data-loading-text="Salvando..." id="btnSalvar" type="submit" class="btn btn-success">Salvar</button>
@@ -212,6 +227,7 @@
 }
 
 <script type="text/javascript">
+    $(function () {
         //Date picker
         $('#dataAdmissao').datepicker({
             autoclose: true,
@@ -225,6 +241,7 @@
             autoclose: true,
             format: 'yyyy-mm-dd'
         });
+        $("[telefone]").inputmask();
         //Ao clickar no botao salvar mudar para Salvando... e desativar
         $('#btnSalvar').on('click', function () {
             var $btn = $(this).button('loading');
@@ -243,4 +260,5 @@
             form.elements[0].focus();
             //inscricaoForm.nome.focus(); codigo alternativo ao anterior
         };
+    });
 </script>

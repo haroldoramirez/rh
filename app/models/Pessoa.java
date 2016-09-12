@@ -50,6 +50,16 @@ public class Pessoa extends Model {
 
     private String numeroPis;
 
+    private String endereco;
+
+    private String bairro;
+
+    private String cidade;
+
+    private String cep;
+
+    private String complemento;
+
     //muitas pessoas tem uma escolaridade
     @ManyToOne
     private Escolaridade escolaridade;
@@ -140,6 +150,11 @@ public class Pessoa extends Model {
                   String contaNumero,
                   String saldoHoras,
                   String numeroPis,
+                  String endereco,
+                  String bairro,
+                  String cidade,
+                  String cep,
+                  String complemento,
                   Genero genero,
                   EstadoCivil estadoCivil,
                   Tipo tipo,
@@ -170,6 +185,11 @@ public class Pessoa extends Model {
         this.setContaNumero(contaNumero);
         this.setSaldoHoras(saldoHoras);
         this.setNumeroPis(numeroPis);
+        this.setEndereco(endereco);
+        this.setBairro(bairro);
+        this.setCidade(cidade);
+        this.setCep(cep);
+        this.setComplemento(complemento);
         this.setGenero(genero);
         this.setEstadoCivil(estadoCivil);
         this.setTipo(tipo);
@@ -203,6 +223,11 @@ public class Pessoa extends Model {
         pessoa.setContaNumero(formData.contaNumero);
         pessoa.setSaldoHoras(formData.saldoHoras);
         pessoa.setNumeroPis(formData.numeroPis);
+        pessoa.setEndereco(formData.endereco);
+        pessoa.setBairro(formData.bairro);
+        pessoa.setCidade(formData.cidade);
+        pessoa.setCep(formData.cep);
+        pessoa.setComplemento(formData.complemento);
         pessoa.setGenero(Genero.findGenero(formData.genero));
         pessoa.setEstadoCivil(EstadoCivil.findEstadoCivil(formData.estadoCivil));
         pessoa.setTipo(Tipo.findTipo(formData.tipo));
@@ -243,6 +268,11 @@ public class Pessoa extends Model {
                 pessoa.contaNumero,
                 pessoa.saldoHoras,
                 pessoa.numeroPis,
+                pessoa.endereco,
+                pessoa.bairro,
+                pessoa.cidade,
+                pessoa.cep,
+                pessoa.complemento,
                 pessoa.genero,
                 pessoa.estadoCivil,
                 pessoa.tipo,
@@ -533,5 +563,45 @@ public class Pessoa extends Model {
 
     public void setDataAlteracao(Date dataAlteracao) {
         this.dataAlteracao = dataAlteracao;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
     }
 }

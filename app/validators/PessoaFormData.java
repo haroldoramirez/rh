@@ -28,6 +28,11 @@ public class PessoaFormData {
     public String contaNumero = "";
     public String saldoHoras = "";
     public String numeroPis = "";
+    public String endereco = "";
+    public String bairro = "";
+    public String cidade = "";
+    public String cep = "";
+    public String complemento = "";
     public String genero = "";
     public String estadoCivil;
     public String tipo = "";
@@ -62,6 +67,11 @@ public class PessoaFormData {
                           String contaNumero,
                           String saldoHoras,
                           String numeroPis,
+                          String endereco,
+                          String bairro,
+                          String cidade,
+                          String cep,
+                          String complemento,
                           Genero genero,
                           EstadoCivil estadoCivil,
                           Tipo tipo,
@@ -91,6 +101,11 @@ public class PessoaFormData {
         this.contaNumero = contaNumero;
         this.saldoHoras = saldoHoras;
         this.numeroPis = numeroPis;
+        this.endereco = endereco;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.cep = cep;
+        this.complemento = complemento;
         this.genero = genero.getNome();
         this.estadoCivil = estadoCivil.getNome();
         this.tipo = tipo.getNome();
