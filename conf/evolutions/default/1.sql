@@ -44,6 +44,13 @@ create table escolaridade (
   constraint pk_escolaridade primary key (id)
 );
 
+create table estado (
+  id                            bigserial not null,
+  nome                          varchar(255),
+  sigla                         varchar(255),
+  constraint pk_estado primary key (id)
+);
+
 create table estado_civil (
   id                            bigserial not null,
   nome                          varchar(255),
@@ -173,6 +180,8 @@ drop table if exists cargo cascade;
 drop table if exists endereco cascade;
 
 drop table if exists escolaridade cascade;
+
+drop table if exists estado cascade;
 
 drop table if exists estado_civil cascade;
 
