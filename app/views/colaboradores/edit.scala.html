@@ -20,7 +20,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="@routes.PessoaController.telaLista"><i class="fa fa-users"></i> Colaboradores</a></li>
+            <li><a href="@routes.PessoaController.telaLista()"><i class="fa fa-users"></i> Colaboradores</a></li>
             <li class="active">Editar</li>
         </ol>
     </section>
@@ -215,7 +215,7 @@
                         </div>
                         <div class="box-footer">
                             <button data-loading-text="Editando..." id="btnSalvar" type="submit" class="btn btn-warning">Editar</button>
-                            <a href="@routes.PessoaController.telaLista" type="reset" class="btn btn-default">Voltar</a>
+                            <a href="@routes.PessoaController.telaLista()" type="reset" class="btn btn-default">Voltar</a>
                         </div>
                     </div>
                 </div>

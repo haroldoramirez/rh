@@ -13,7 +13,7 @@ GET     /message                    controllers.AsyncController.message
 GET     /colaborador/novo/                      controllers.PessoaController.telaNovo(id: Long ?= 0)
 GET		/colaborador/detalhe/:id			    controllers.PessoaController.telaDetalhe(id:Long)
 GET     /colaborador/editar/:id                 controllers.PessoaController.telaEditar(id:Long)
-GET     /colaborador/lista/todos                controllers.PessoaController.telaLista()
+GET     /colaborador/lista/todos                controllers.PessoaController.telaLista(p:Int ?= 0, s ?= "nome", o ?= "asc", f ?= "")
 
 # Colaborador Servicos
 POST    /colaborador                            controllers.PessoaController.inserir(id: Long ?= 0)

@@ -112,7 +112,7 @@
                         </li>
                         <li class="header">CADASTROS</li>
                         <li @if(request.path.startsWith("/colaborador")){ class="active" }>
-                            <a href="@routes.PessoaController.telaLista"><i class="fa fa-users"></i> <span>Colaboradores</span></a>
+                            <a href="@routes.PessoaController.telaLista()"><i class="fa fa-users"></i> <span>Colaboradores</span></a>
                         </li>
                         <li @if(request.path.startsWith("/area")){ class="active" }>
                             <a href="@routes.AreaController.telaLista"><i class="fa fa-building"></i> <span>Áreas</span></a>

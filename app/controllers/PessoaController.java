@@ -8,6 +8,7 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import validators.PessoaFormData;
+import views.html.colaboradores.list;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -90,15 +91,15 @@ public class PessoaController extends Controller {
      *
      * @return a list of all noticias in a render template
      */
-    public Result telaLista() {
-        try {
-            List<Pessoa> pessoas = Ebean.find(Pessoa.class).findList();
-            return ok(views.html.colaboradores.list.render(pessoas, ""));
-        } catch (Exception e) {
-            Logger.error(e.toString());
-            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString()));
-        }
-    }
+//    public Result telaLista() {
+//        try {
+//            List<Pessoa> pessoas = Ebean.find(Pessoa.class).findList();
+//            return ok(views.html.colaboradores.list.render(pessoas, ""));
+//        } catch (Exception e) {
+//            Logger.error(e.toString());
+//            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString()));
+//        }
+//    }
 
     /**
      * Save a noticia
@@ -226,5 +227,22 @@ public class PessoaController extends Controller {
             Logger.error(e.toString());
             return badRequest(views.html.mensagens.area.erro.render(e.toString()));
         }
+    }
+
+    /**
+     * Display the paginated list of computers.
+     *
+     * @param page Current page number (starts from 0)
+     * @param sortBy Column to be sorted
+     * @param order Sort order (either asc or desc)
+     * @param filter Filter applied on computer names
+     */
+    public Result telaLista(int page, String sortBy, String order, String filter) {
+        return ok(
+                list.render(
+                        Pessoa.page(page, 10, sortBy, order, filter),
+                        sortBy, order, filter
+                )
+        );
     }
 }

@@ -621,9 +621,9 @@ public class Pessoa extends Model {
     public static PagedList<Pessoa> page(int page, int pageSize, String sortBy, String order, String filter) {
         return
                 find.where()
-                        .ilike("name", "%" + filter + "%")
+                        .ilike("nome", "%" + filter + "%")
                         .orderBy(sortBy + " " + order)
-                        .fetch("company")
+                        .fetch("cargo")
                         .findPagedList(page, pageSize);
     }
 }
