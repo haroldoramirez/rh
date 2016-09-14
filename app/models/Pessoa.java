@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.PagedList;
 import play.data.format.Formats;
 import validators.PessoaFormData;
 
@@ -603,5 +604,26 @@ public class Pessoa extends Model {
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
+    }
+
+    public static Finder<Long, Pessoa> find = new Finder<>(Pessoa.class);
+
+
+    /**
+     * Return a page of pessoa
+     *
+     * @param page Page to display
+     * @param pageSize Number of pessoa per page
+     * @param sortBy Cargo property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static PagedList<Pessoa> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return
+                find.where()
+                        .ilike("name", "%" + filter + "%")
+                        .orderBy(sortBy + " " + order)
+                        .fetch("company")
+                        .findPagedList(page, pageSize);
     }
 }
