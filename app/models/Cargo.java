@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
+import com.avaje.ebean.PagedList;
 import play.data.format.Formats;
 import validators.CargoFormData;
 import validators.PessoaFormData;
@@ -123,5 +124,22 @@ public class Cargo extends Model {
             }
         }
         return null;
+    }
+
+    /**
+     * Return a page of area
+     *
+     * @param page Page to display
+     * @param pageSize Number of pessoa per page
+     * @param sortBy Cargo property used for sorting
+     * @param order Sort order (either or asc or desc)
+     * @param filter Filter applied on the name column
+     */
+    public static PagedList<Cargo> page(int page, int pageSize, String sortBy, String order, String filter) {
+        return
+                find.where()
+                        .ilike("nome", "%" + filter + "%")
+                        .orderBy(sortBy + " " + order)
+                        .findPagedList(page, pageSize);
     }
 }

@@ -12,7 +12,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="@routes.BeneficioController.telaLista"><i class="fa fa-balance-scale"></i> Benefícios</a></li>
+            <li><a href="@routes.BeneficioController.telaLista()"><i class="fa fa-balance-scale"></i> Benefícios</a></li>
             <li class="active">Cadastro</li>
         </ol>
     </section>
@@ -49,7 +49,7 @@
 
                         <div class="box-footer">
                             <button data-loading-text="Salvando..." id="btnSalvar" type="submit" class="btn btn-success">Salvar</button>
-                            <a href="@routes.BeneficioController.telaLista" type="reset" class="btn btn-default">Voltar</a>
+                            <a href="@routes.BeneficioController.telaLista()" type="reset" class="btn btn-default">Voltar</a>
                         </div>
                     }
                 </div>

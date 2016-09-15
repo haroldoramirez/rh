@@ -178,7 +178,7 @@
                                     isMultiple = false)
                             </div>
                             <div class="col-md-1">
-                                @texto(pessoaForm("salario"), label = "Salário:", placeholder = "Insira o salário")
+                                @texto(pessoaForm("salario"), label = "Salário:", placeholder = "$ 00,00")
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                         </div>
                         <div class="box-footer">
                             <button data-loading-text="Editando..." id="btnSalvar" type="submit" class="btn btn-warning">Editar</button>
-                            <a href="@routes.PessoaController.telaLista()" type="reset" class="btn btn-default">Voltar</a>
+                            <a href="@routes.PessoaController.telaLista()" type="reset" class="btn btn-default">Cancelar</a>
                         </div>
                     </div>
                 </div>

@@ -30,7 +30,7 @@
 * Helper generating table headers *
 ***********************************@
 @header(key:String, title:String) = {
-    <th class="@key.replace(".","_") header @if(currentSortBy == key) @{if(currentOrder == "asc") "headerSortDown" else "headerSortUp"}">
+    <th rowspan="1" colspan="1" tabindex="0" class="@key.replace(".","_") sorting @if(currentSortBy == key) @{if(currentOrder == "asc") "sorting_asc headercor" else "sorting_desc headercor"}">
         <a href="@link(0, key)">@title</a>
     </th>
 }
@@ -40,6 +40,7 @@
     <section class="content-header">
         <h1>
             Lista
+            <small>Colaboradores</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
@@ -54,15 +55,25 @@
                 <div class="box">
                     <div class="box-header">
                         <a type="button" href="@routes.PessoaController.telaNovo()" class="pull-right btn btn-success">Cadastrar</a>
-                        <div class="input-group col-lg-3">
-                            <input autocomplete="off" type="text" class="form-control" placeholder="Buscar por...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">Buscar</button>
-                            </span>
-                        </div><!-- /input-group -->
+                        <form action="@link(0, "nome")" method="GET">
+                            <div class="input-group col-lg-3">
+                                <input class="form-control" type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Filtrar por nome">
+                                <span class="input-group-btn">
+                                    <input type="submit" id="searchsubmit" value="Filtrar" class="btn btn-primary">
+                                    <a type="button" href="@routes.PessoaController.telaLista()" class="btn btn-default">Limpar</a>
+                                </span>
+                            </div><!-- /input-group -->
+                        </form>
                     </div>
                         <!-- /.box-header -->
                     <div class="box-body">
+                    @if(currentPage.getTotalRowCount == 0) {
+
+                        <div class="well">
+                            <em>Nada para mostrar</em>
+                        </div>
+
+                    } else {
                         <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                             <div class="row">
                                 <div class="col-sm-6"></div>
@@ -73,14 +84,15 @@
                                     <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                                         <thead>
                                             <tr role="row">
-                                                <th>Matrícula</th>
-                                                <th>Nome</th>
+                                                @header("id", "Matrícula")
+                                                @header("nome", "Nome")
+                                                @header("cargo", "Cargo")
+                                                @header("area", "Área")
+                                                @header("genero", "Gênero")
+                                                @header("tipo", "Tipo")
+                                                <th>Data de Admissão</th>
                                                 <th>Telefone</th>
                                                 <th>CPF</th>
-                                                <th>Email</th>
-                                                <th>Cargo</th>
-                                                <th>Área</th>
-                                                <th>Benefício</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -88,27 +100,20 @@
                                             <tr>
                                                 <td>@pessoa.getId</td>
                                                 <td><a href="@routes.PessoaController.telaDetalhe(pessoa.getId)"><strong>@pessoa.getNome</strong></a></td>
-                                                <td>@pessoa.getTelefone</td>
-                                                <td>@pessoa.getCpf</td>
-                                                <td>@pessoa.getEmail</td>
                                                 <td>@pessoa.getCargo.getNome</td>
                                                 <td>@pessoa.getArea.getNome</td>
-                                                <td>@pessoa.getBeneficio.getNome</td>
+                                                <td>@pessoa.getGenero.getNome</td>
+                                                <td>@pessoa.getTipo.getNome</td>
+                                                @if(pessoa.getDataAdmissao == null) {
+                                                    <em>não contratado</em>
+                                                } else {
+                                                    <td>@pessoa.getDataAdmissao.format("dd MMMM yyyy")</td>
+                                                }
+                                                <td>@pessoa.getTelefone</td>
+                                                <td>@pessoa.getCpf</td>
                                             </tr>
                                         }
                                         </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Matrícula</th>
-                                                <th>Nome</th>
-                                                <th>Telefone</th>
-                                                <th>CPF</th>
-                                                <th>Email</th>
-                                                <th>Cargo</th>
-                                                <th>Área</th>
-                                                <th>Benefício</th>
-                                            </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
                                     <!-- /.col -->
@@ -118,7 +123,8 @@
 
                             <div class="row">
                                 <div class="col-sm-5">
-                                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Página @currentPage.getDisplayXtoYofZ(" com "," total ")</div>
+                                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                                        Visualizando @currentPage.getDisplayXtoYofZ(" até ", " de ")</div>
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="dataTables_paginate paging_simple_numbers">
@@ -147,6 +153,7 @@
                             </div>
                         </div>
                             <!-- /.dataTables -->
+                    }
                     </div>
                         <!-- /.box-body -->
                 </div>
@@ -164,7 +171,7 @@
         window.onbeforeunload = function () {
             var inputs = document.getElementsByTagName("INPUT");
             for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].type == "text") {
+                if (inputs[i].type == "search") {
                     inputs[i].disabled = true;
                 }
             }

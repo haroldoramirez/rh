@@ -115,13 +115,13 @@
                             <a href="@routes.PessoaController.telaLista()"><i class="fa fa-users"></i> <span>Colaboradores</span></a>
                         </li>
                         <li @if(request.path.startsWith("/area")){ class="active" }>
-                            <a href="@routes.AreaController.telaLista"><i class="fa fa-building"></i> <span>Áreas</span></a>
+                            <a href="@routes.AreaController.telaLista()"><i class="fa fa-building"></i> <span>Áreas</span></a>
                         </li>
                         <li @if(request.path.startsWith("/cargo")){ class="active" }>
-                            <a href="@routes.CargoController.telaLista"><i class="fa fa-user-md"></i> <span>Cargos</span></a>
+                            <a href="@routes.CargoController.telaLista()"><i class="fa fa-user-md"></i> <span>Cargos</span></a>
                         </li>
                         <li @if(request.path.startsWith("/beneficio")){ class="active" }>
-                            <a href="@routes.BeneficioController.telaLista"><i class="fa fa-balance-scale"></i> <span>Benefícios</span></a>
+                            <a href="@routes.BeneficioController.telaLista()"><i class="fa fa-balance-scale"></i> <span>Benefícios</span></a>
                         </li>
                     </ul>
                 </section>

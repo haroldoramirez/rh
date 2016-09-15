@@ -87,21 +87,6 @@ public class PessoaController extends Controller {
     }
 
     /**
-     * Retrieve a list of all noticias
-     *
-     * @return a list of all noticias in a render template
-     */
-//    public Result telaLista() {
-//        try {
-//            List<Pessoa> pessoas = Ebean.find(Pessoa.class).findList();
-//            return ok(views.html.colaboradores.list.render(pessoas, ""));
-//        } catch (Exception e) {
-//            Logger.error(e.toString());
-//            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString()));
-//        }
-//    }
-
-    /**
      * Save a noticia
      *
      * @return a render view to inform OK
@@ -230,7 +215,7 @@ public class PessoaController extends Controller {
     }
 
     /**
-     * Display the paginated list of computers.
+     * Display the paginated list of object.
      *
      * @param page Current page number (starts from 0)
      * @param sortBy Column to be sorted
@@ -240,7 +225,7 @@ public class PessoaController extends Controller {
     public Result telaLista(int page, String sortBy, String order, String filter) {
         return ok(
                 list.render(
-                        Pessoa.page(page, 10, sortBy, order, filter),
+                        Pessoa.page(page, 16, sortBy, order, filter),
                         sortBy, order, filter
                 )
         );

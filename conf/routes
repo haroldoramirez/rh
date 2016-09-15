@@ -22,9 +22,9 @@ POST    /colaborador/editar/:id                 controllers.PessoaController.edi
 
 # Areas Telas
 GET     /area/novo/                      controllers.AreaController.telaNovo()
-GET		/area/detalhe/:id			    controllers.AreaController.telaDetalhe(id:Long)
+GET		/area/detalhe/:id			     controllers.AreaController.telaDetalhe(id:Long)
 GET     /area/editar/:id                 controllers.AreaController.telaEditar(id:Long)
-GET     /area/lista/todos                controllers.AreaController.telaLista()
+GET     /area/lista/todos         controllers.AreaController.telaLista(p:Int ?= 0, s ?= "nome", o ?= "asc", f ?= "")
 
 # Areas Servicos
 POST    /area                            controllers.AreaController.inserir()
@@ -35,7 +35,7 @@ POST    /area/editar/:id                 controllers.AreaController.editar(id:Lo
 GET     /beneficio/novo/                      controllers.BeneficioController.telaNovo()
 GET		/beneficio/detalhe/:id			    controllers.BeneficioController.telaDetalhe(id:Long)
 GET     /beneficio/editar/:id                 controllers.BeneficioController.telaEditar(id:Long)
-GET     /beneficio/lista/todos                controllers.BeneficioController.telaLista()
+GET     /beneficio/lista/todos                controllers.BeneficioController.telaLista(p:Int ?= 0, s ?= "nome", o ?= "asc", f ?= "")
 
 # Areas Servicos
 POST    /beneficio                            controllers.BeneficioController.inserir()
@@ -46,7 +46,7 @@ POST    /beneficio/editar/:id                 controllers.BeneficioController.ed
 GET     /cargo/novo/                      controllers.CargoController.telaNovo()
 GET		/cargo/detalhe/:id			    controllers.CargoController.telaDetalhe(id:Long)
 GET     /cargo/editar/:id                 controllers.CargoController.telaEditar(id:Long)
-GET     /cargo/lista/todos                controllers.CargoController.telaLista()
+GET     /cargo/lista/todos                controllers.CargoController.telaLista(p:Int ?= 0, s ?= "nome", o ?= "asc", f ?= "")
 
 # Areas Servicos
 POST    /cargo                            controllers.CargoController.inserir()

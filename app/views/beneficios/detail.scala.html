@@ -10,7 +10,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="@routes.BeneficioController.telaLista"><i class="fa fa-balance-scale"></i> Benefícios</a></li>
+            <li><a href="@routes.BeneficioController.telaLista()"><i class="fa fa-balance-scale"></i> Benefícios</a></li>
             <li class="active">Detalhe</li>
         </ol>
     </section>
@@ -27,7 +27,7 @@
                                 Opções <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="@routes.BeneficioController.telaLista">Voltar</a></li>
+                                <li><a href="@routes.BeneficioController.telaLista()">Voltar</a></li>
                                 <li><a href="@routes.BeneficioController.telaEditar(beneficio.getId)">Editar</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a data-toggle="modal" data-target=".bs-example-modal-sm" href="">Excluir</a></li>

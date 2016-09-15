@@ -5,11 +5,17 @@
 insert into genero (nome,data_cadastro,data_alteracao) values ('Masculino','now','now');
 insert into genero (nome,data_cadastro,data_alteracao) values ('Feminino','now','now');
 
-insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Solteiro','now','now');
-insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Casado','now','now');
+insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Solteiro(a)','now','now');
+insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Casado(a)','now','now');
+insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Divorciado(a)','now','now');
+insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Viúvo(a)','now','now');
+insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Separado(a)','now','now');
+insert into estado_civil (nome,data_cadastro,data_alteracao) values ('Companheiro(a)','now','now');
 
 insert into tipo (nome,data_cadastro,data_alteracao) values ('Colaborador','now','now');
 insert into tipo (nome,data_cadastro,data_alteracao) values ('Bolsista','now','now');
+insert into tipo (nome,data_cadastro,data_alteracao) values ('Estagiário','now','now');
+insert into tipo (nome,data_cadastro,data_alteracao) values ('Voluntário','now','now');
 
 insert into beneficio (nome,data_cadastro,data_alteracao) values ('Vale Transporte','now','now');
 

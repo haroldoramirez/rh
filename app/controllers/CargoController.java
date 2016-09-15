@@ -8,6 +8,7 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import validators.CargoFormData;
+import views.html.cargos.list;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -64,18 +65,20 @@ public class CargoController extends Controller {
     }
 
     /**
-     * Retrieve a list of all objects
+     * Display the paginated list of object.
      *
-     * @return a list of all objects in a render template
+     * @param page Current page number (starts from 0)
+     * @param sortBy Column to be sorted
+     * @param order Sort order (either asc or desc)
+     * @param filter Filter applied on computer names
      */
-    public Result telaLista() {
-        try {
-            List<Cargo> cargos = Ebean.find(Cargo.class).findList();
-            return ok(views.html.cargos.list.render(cargos, ""));
-        } catch (Exception e) {
-            Logger.error(e.toString());
-            return badRequest(views.html.mensagens.cargo.erro.render(e.toString()));
-        }
+    public Result telaLista(int page, String sortBy, String order, String filter) {
+        return ok(
+                list.render(
+                        Cargo.page(page, 16, sortBy, order, filter),
+                        sortBy, order, filter
+                )
+        );
     }
 
     /**

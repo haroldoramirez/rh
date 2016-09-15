@@ -10,7 +10,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="@routes.HomeController.inicio"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="@routes.CargoController.telaLista"><i class="fa fa-user-md"></i> Cargos</a></li>
+            <li><a href="@routes.CargoController.telaLista()"><i class="fa fa-user-md"></i> Cargos</a></li>
             <li class="active">Detalhe</li>
         </ol>
     </section>
@@ -27,7 +27,7 @@
                                 Opções <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="@routes.CargoController.telaLista">Voltar</a></li>
+                                <li><a href="@routes.CargoController.telaLista()">Voltar</a></li>
                                 <li><a href="@routes.CargoController.telaEditar(cargo.getId)">Editar</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a data-toggle="modal" data-target=".bs-example-modal-sm" href="">Excluir</a></li>

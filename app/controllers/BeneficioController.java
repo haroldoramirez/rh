@@ -7,6 +7,7 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Result;
 import validators.BeneficioFormData;
+import views.html.beneficios.list;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -65,18 +66,20 @@ public class BeneficioController {
     }
 
     /**
-     * Retrieve a list of all objects
+     * Display the paginated list of object.
      *
-     * @return a list of all objects in a render template
+     * @param page Current page number (starts from 0)
+     * @param sortBy Column to be sorted
+     * @param order Sort order (either asc or desc)
+     * @param filter Filter applied on computer names
      */
-    public Result telaLista() {
-        try {
-            List<Beneficio> beneficios = Ebean.find(Beneficio.class).findList();
-            return ok(views.html.beneficios.list.render(beneficios, ""));
-        } catch (Exception e) {
-            Logger.error(e.toString());
-            return badRequest(views.html.mensagens.beneficio.erro.render(e.toString()));
-        }
+    public Result telaLista(int page, String sortBy, String order, String filter) {
+        return ok(
+                list.render(
+                        Beneficio.page(page, 16, sortBy, order, filter),
+                        sortBy, order, filter
+                )
+        );
     }
 
     /**
