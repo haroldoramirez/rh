@@ -12,7 +12,6 @@ import views.html.areas.list;
 
 import javax.inject.Inject;
 import java.util.Date;
-import java.util.List;
 
 public class AreaController extends Controller {
 
