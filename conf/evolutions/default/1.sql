@@ -118,6 +118,16 @@ create table tipo (
   constraint pk_tipo primary key (id)
 );
 
+create table usuario (
+  id                            bigserial not null,
+  email                         varchar(60) not null,
+  senha                         varchar(60) not null,
+  data_cadastro                 date,
+  data_alteracao                date,
+  constraint uq_usuario_email unique (email),
+  constraint pk_usuario primary key (id)
+);
+
 alter table pessoa add constraint fk_pessoa_escolaridade_id foreign key (escolaridade_id) references escolaridade (id) on delete restrict on update restrict;
 create index ix_pessoa_escolaridade_id on pessoa (escolaridade_id);
 
@@ -188,4 +198,6 @@ drop table if exists pais cascade;
 drop table if exists pessoa cascade;
 
 drop table if exists tipo cascade;
+
+drop table if exists usuario cascade;
 

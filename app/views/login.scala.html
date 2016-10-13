@@ -35,7 +35,8 @@
             <div class="login-box-body">
                 <p class="login-box-msg">Faça login para começar a sua sessão</p>
 
-                <form action="" method="post">
+
+                @helper.form(routes.LoginController.autenticar, 'id -> "beneficioForm") {
                     @bootstrap.email(loginForm("email"), placeholder = "Insira o email")
                     @bootstrap.senha(loginForm("senha"), placeholder = "Insira a senha")
                     <div class="row">
@@ -52,7 +53,7 @@
                         </div>
                             <!-- /.col -->
                     </div>
-                </form>
+                }
             </div>
                 <!-- /.login-box-body -->
         </div>
