@@ -1,9 +1,9 @@
-@(id: Long, beneficioForm: play.data.Form[validators.BeneficioFormData])
+@(id: Long, beneficioForm: play.data.Form[validators.BeneficioFormData])(usuario : Usuario)
 
 @import helper._
 @import bootstrap._
 
-@views.html.main("AdminRH - Editar Benefício") {
+@views.html.main("AdminRH - Editar Benefício")(usuario)  {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>

@@ -47,7 +47,7 @@ public class HomeController extends Controller {
             return redirect(routes.LoginController.telaLogin());
         }
 
-        return ok(inicio.render(usuarioAtual.getEmail()));
+        return ok(inicio.render(usuarioAtual));
     }
 
 }

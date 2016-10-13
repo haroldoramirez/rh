@@ -2,7 +2,6 @@ package controllers;
 
 import models.Usuario;
 import models.Usuarios;
-import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
@@ -30,27 +29,21 @@ public class LoginController extends Controller {
         if (formData.hasErrors()) {
             return badRequest(views.html.login.render(formData));
         } else {
-            try {
 
-                String email = formData.data().get("email");
-                String senha = formData.data().get("senha");
+            String email = formData.data().get("email");
+            String senha = formData.data().get("senha");
 
-                Optional<Usuario> talvesUmUsuario = Usuarios.existe(email, senha);
+            Optional<Usuario> talvesUmUsuario = Usuarios.existe(email, senha);
 
-                if (talvesUmUsuario.isPresent()) {
-                    session().put("email", talvesUmUsuario.get().getEmail());
-                    return redirect(routes.HomeController.inicio());
-                }
-
-            } catch (Exception e) {
-                Logger.error(e.toString());
-                formData.reject(e.toString());
-                return badRequest(views.html.login.render(formData));
+            if (talvesUmUsuario.isPresent()) {
+                session().put("email", talvesUmUsuario.get().getEmail());
+                return redirect(routes.HomeController.inicio());
             }
+
         }
 
-        Logger.error("forbidden");
-        return forbidden();
+        formData.reject("Email ou Senha inválidos!");
+        return forbidden(views.html.login.render(formData));
     }
 
     /**

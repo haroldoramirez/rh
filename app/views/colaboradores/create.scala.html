@@ -6,12 +6,12 @@
         tipos:Map[String,Boolean],
         estadosCivis:Map[String,Boolean],
         escolaridades:Map[String,Boolean],
-        paises:Map[String,Boolean])
+        paises:Map[String,Boolean])(usuario : Usuario)
 
 @import helper._
 @import bootstrap._
 
-@views.html.main("AdminRH - Cadastro Colaborador") {
+@views.html.main("AdminRH - Cadastro Colaborador")(usuario) {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>

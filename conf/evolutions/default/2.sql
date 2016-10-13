@@ -2,7 +2,7 @@
 
 # --- !Ups
 
-insert into usuario (email,senha,data_cadastro,data_alteracao) values ('admin@cibiogas.org','123','now','now');
+insert into usuario (email,senha,data_cadastro,data_alteracao) values ('admin','123','now','now');
 
 insert into genero (nome,data_cadastro,data_alteracao) values ('Masculino','now','now');
 insert into genero (nome,data_cadastro,data_alteracao) values ('Feminino','now','now');

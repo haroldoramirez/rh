@@ -1,8 +1,9 @@
-@(pessoa: Pessoa)
+@(pessoa: Pessoa)(usuario : Usuario)
+
 
 @import helper._
 
-@views.html.main("AdminRH - Detalhe Colaborador") {
+@views.html.main("AdminRH - Detalhe Colaborador")(usuario) {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>

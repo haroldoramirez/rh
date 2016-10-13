@@ -1,30 +1,52 @@
 package controllers;
 
+import actions.Secured;
 import com.avaje.ebean.Ebean;
 import models.Cargo;
+import models.Usuario;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import validators.CargoFormData;
-import views.html.cargos.list;
+import views.html.cargos.*;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.Date;
-import java.util.List;
 
+@Security.Authenticated(Secured.class)
 public class CargoController extends Controller {
 
     @Inject
     FormFactory formFactory;
 
     /**
+     * @return a object user authenticated
+     */
+    @Nullable
+    private Usuario atual() {
+        String username = session().get("email");
+
+        try {
+            //retorna o usuário atual que esteja logado no sistema
+            return Ebean.createQuery(Usuario.class, "find usuario where email = :email")
+                    .setParameter("email", username)
+                    .findUnique();
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * @return object form
      */
     public Result telaNovo() {
         Form<CargoFormData> cargoForm = formFactory.form(CargoFormData.class);
-        return ok(views.html.cargos.create.render(cargoForm));
+        return ok(views.html.cargos.create.render(cargoForm, atual()));
     }
 
     /**
@@ -35,13 +57,13 @@ public class CargoController extends Controller {
             Cargo cargo = Ebean.find(Cargo.class, id);
 
             if (cargo == null) {
-                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado."));
+                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado.", atual()));
             }
 
-            return ok(views.html.cargos.detail.render(cargo));
+            return ok(views.html.cargos.detail.render(cargo, atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.cargo.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.cargo.erro.render(e.toString(), atual()));
         }
     }
 
@@ -56,10 +78,10 @@ public class CargoController extends Controller {
             //apos o objeto ser instanciado levamos os dados para o formData e os dados serao carregados no form edit
             Form<CargoFormData> formData = formFactory.form(CargoFormData.class).fill(cargoFormData);
 
-            return ok(views.html.cargos.edit.render(id,formData));
+            return ok(views.html.cargos.edit.render(id, formData, atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.cargo.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.cargo.erro.render(e.toString(), atual()));
         }
 
     }
@@ -76,8 +98,7 @@ public class CargoController extends Controller {
         return ok(
                 list.render(
                         Cargo.page(page, 16, sortBy, order, filter),
-                        sortBy, order, filter
-                )
+                        sortBy, order, filter, atual())
         );
     }
 
@@ -92,18 +113,18 @@ public class CargoController extends Controller {
 
         //se existir erros nos campos do formulario retorne os erros
         if (formData.hasErrors()) {
-            return badRequest(views.html.cargos.create.render(formData));
+            return badRequest(views.html.cargos.create.render(formData, atual()));
         } else {
             try {
                 //Converte os dados do formulario para uma instancia a ser salva na base de dados
                 Cargo cargo = Cargo.makeInstance(formData.get());
                 cargo.setDataCadastro(new Date());
                 cargo.save();
-                return created(views.html.mensagens.cargo.cadastrado.render(cargo.getNome()));
+                return created(views.html.mensagens.cargo.cadastrado.render(cargo.getNome(), atual()));
             } catch (Exception e) {
                 Logger.error(e.toString());
                 formData.reject(e.toString());
-                return badRequest(views.html.cargos.create.render(formData));
+                return badRequest(views.html.cargos.create.render(formData, atual()));
             }
         }
 
@@ -121,13 +142,13 @@ public class CargoController extends Controller {
 
         //verificar se tem erros no formData, caso tiver retornar o formulario com os erros e caso não tiver continua o processo de alteracao
         if (formData.hasErrors()) {
-            return badRequest(views.html.cargos.edit.render(id,formData));
+            return badRequest(views.html.cargos.edit.render(id,formData, atual()));
         } else {
             try {
                 Cargo cargoBusca = Ebean.find(Cargo.class, id);
 
                 if (cargoBusca == null) {
-                    return notFound(views.html.mensagens.cargo.erro.render("Objeto não encontrado."));
+                    return notFound(views.html.mensagens.cargo.erro.render("Objeto não encontrado.", atual()));
                 }
 
                 //Converte os dados do formulario para uma instancia
@@ -136,10 +157,10 @@ public class CargoController extends Controller {
                 cargo.setId(id);
                 cargo.setDataAlteracao(new Date());
                 cargo.update();
-                return ok(views.html.mensagens.cargo.alterado.render(cargo.getNome()));
+                return ok(views.html.mensagens.cargo.alterado.render(cargo.getNome(), atual()));
             } catch (Exception e) {
                 Logger.error(e.toString());
-                return badRequest(views.html.mensagens.cargo.erro.render(e.toString()));
+                return badRequest(views.html.mensagens.cargo.erro.render(e.toString(), atual()));
             }
         }
 
@@ -160,16 +181,16 @@ public class CargoController extends Controller {
             Cargo cargo = Ebean.find(Cargo.class, id);
 
             if (cargo == null) {
-                return notFound(views.html.mensagens.cargo.erro.render("Objeto não encontrado."));
+                return notFound(views.html.mensagens.cargo.erro.render("Objeto não encontrado.", atual()));
             }
 
             cargoNome = cargo.getNome();
 
             Ebean.delete(cargo);
-            return ok(views.html.mensagens.cargo.removido.render(cargoNome));
+            return ok(views.html.mensagens.cargo.removido.render(cargoNome, atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.cargo.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.cargo.erro.render(e.toString(), atual()));
         }
     }
 }

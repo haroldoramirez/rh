@@ -1,8 +1,8 @@
-@(cargo: Cargo)
+@(cargo: Cargo)(usuario : Usuario)
 
 @import helper._
 
-@views.html.main("AdminRH - Detalhe Cargo") {
+@views.html.main("AdminRH - Detalhe Cargo")(usuario) {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>

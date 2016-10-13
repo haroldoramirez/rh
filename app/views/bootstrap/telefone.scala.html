@@ -2,12 +2,11 @@
 
 <div class="form-group @if(field.hasErrors) {has-error}">
     <label>@label</label><span class="pull-right text-red">@{field.error.map { error => error.message }}</span>
-    <input
-    type="text"
-    class="form-control"
-    id="@field.id"
-    name="@field.name"
-    value="@field.value.getOrElse("")"
-    placeholder="@placeholder"
-    autocomplete="off">
+    <input type="text"
+        class="form-control"
+        id="@field.id"
+        name="@field.name"
+        value="@field.value.getOrElse("")"
+        placeholder="@placeholder"
+        autocomplete="off">
 </div>

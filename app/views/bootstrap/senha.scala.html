@@ -1,12 +1,12 @@
 @(field: Field, placeholder: String = "", help: String = "")
 
-<div class="form-group has-feedback">
+<div class="form-group has-feedback @if(field.hasErrors) {has-error}">
     <input type="password"
-    class="form-control"
-    id="@field.id"
-    name="@field.name"
-    value="@field.value.getOrElse("")"
-    placeholder="@placeholder"
-    autocomplete="off">
+        class="form-control"
+        id="@field.id"
+        name="@field.name"
+        value="@field.value.getOrElse("")"
+        placeholder="@placeholder"
+        autocomplete="off">
     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 </div>

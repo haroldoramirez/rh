@@ -1,9 +1,9 @@
-@(areaForm: play.data.Form[validators.AreaFormData])
+@(areaForm: play.data.Form[validators.AreaFormData])(usuario : Usuario)
 
 @import helper._
 @import bootstrap._
 
-@views.html.main("AdminRH - Cadastro Área") {
+@views.html.main("AdminRH - Cadastro Área")(usuario) {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>

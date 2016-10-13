@@ -1,5 +1,6 @@
 package controllers;
 
+import actions.Secured;
 import com.avaje.ebean.Ebean;
 import models.*;
 import play.Logger;
@@ -7,18 +8,37 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import validators.PessoaFormData;
-import views.html.colaboradores.list;
+import views.html.colaboradores.*;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
+@Security.Authenticated(Secured.class)
 public class PessoaController extends Controller {
 
     @Inject
     FormFactory formFactory;
+
+    /**
+     * @return a object user authenticated
+     */
+    @Nullable
+    private Usuario atual() {
+        String username = session().get("email");
+
+        try {
+            //retorna o usuário atual que esteja logado no sistema
+            return Ebean.createQuery(Usuario.class, "find usuario where email = :email")
+                    .setParameter("email", username)
+                    .findUnique();
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+            return null;
+        }
+    }
 
     /**
      * @return noticia form if auth OK or not authorized
@@ -37,7 +57,7 @@ public class PessoaController extends Controller {
                 Tipo.makeTipoMap(pessoaData),
                 EstadoCivil.makeEstadoCivilMap(pessoaData),
                 Escolaridade.makeEscolaridadeMap(pessoaData),
-                Pais.makePaisMap(pessoaData)));
+                Pais.makePaisMap(pessoaData), atual()));
     }
 
     /**
@@ -48,13 +68,13 @@ public class PessoaController extends Controller {
             Pessoa pessoa = Ebean.find(Pessoa.class, id);
 
             if (pessoa == null) {
-                return notFound(views.html.mensagens.colaborador.erro.render("Objeto não encontrado."));
+                return notFound(views.html.mensagens.colaborador.erro.render("Objeto não encontrado.", atual()));
             }
 
-            return ok(views.html.colaboradores.detail.render(pessoa));
+            return ok(views.html.colaboradores.detail.render(pessoa, atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString(), atual()));
         }
     }
 
@@ -77,10 +97,10 @@ public class PessoaController extends Controller {
                     Tipo.makeTipoMap(pessoaFormData),
                     EstadoCivil.makeEstadoCivilMap(pessoaFormData),
                     Escolaridade.makeEscolaridadeMap(pessoaFormData),
-                    Pais.makePaisMap(pessoaFormData)));
+                    Pais.makePaisMap(pessoaFormData),atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.colaborador.erro.render(e.toString(), atual()));
         }
 
 
@@ -107,7 +127,7 @@ public class PessoaController extends Controller {
                     Tipo.makeTipoMap(pessoaData),
                     EstadoCivil.makeEstadoCivilMap(pessoaData),
                     Escolaridade.makeEscolaridadeMap(pessoaData),
-                    Pais.makePaisMap(pessoaData)));
+                    Pais.makePaisMap(pessoaData),atual()));
         }
         else {
             try {
@@ -115,7 +135,7 @@ public class PessoaController extends Controller {
                 Pessoa pessoa = Pessoa.makeInstance(formData.get());
                 pessoa.setDataCadastro(new Date());
                 pessoa.save();
-                return created(views.html.mensagens.colaborador.cadastrado.render(pessoa.getNome()));
+                return created(views.html.mensagens.colaborador.cadastrado.render(pessoa.getNome(), atual()));
             } catch (Exception e) {
                 Logger.error(e.getMessage());
                 formData.reject("Erro interno de sistema. " + e);
@@ -127,7 +147,7 @@ public class PessoaController extends Controller {
                         Tipo.makeTipoMap(pessoaData),
                         EstadoCivil.makeEstadoCivilMap(pessoaData),
                         Escolaridade.makeEscolaridadeMap(pessoaData),
-                        Pais.makePaisMap(pessoaData)));
+                        Pais.makePaisMap(pessoaData), atual()));
             }
 
         }
@@ -159,7 +179,7 @@ public class PessoaController extends Controller {
                     Tipo.makeTipoMap(pessoaFormData),
                     EstadoCivil.makeEstadoCivilMap(pessoaFormData),
                     Escolaridade.makeEscolaridadeMap(pessoaFormData),
-                    Pais.makePaisMap(pessoaFormData)));
+                    Pais.makePaisMap(pessoaFormData), atual()));
         }
         else {
             Pessoa pessoa = Pessoa.makeInstance(formData.get());
@@ -168,7 +188,7 @@ public class PessoaController extends Controller {
                 pessoa.setId(id);
                 pessoa.setDataAlteracao(new Date());
                 pessoa.update();
-                return ok(views.html.mensagens.colaborador.alterado.render(pessoa.getNome()));
+                return ok(views.html.mensagens.colaborador.alterado.render(pessoa.getNome(), atual()));
             } catch (Exception e) {
                 Logger.error(e.getMessage());
                 formData.reject("Erro interno de sistema. " + e);
@@ -180,7 +200,7 @@ public class PessoaController extends Controller {
                         Tipo.makeTipoMap(pessoaFormData),
                         EstadoCivil.makeEstadoCivilMap(pessoaFormData),
                         Escolaridade.makeEscolaridadeMap(pessoaFormData),
-                        Pais.makePaisMap(pessoaFormData)));
+                        Pais.makePaisMap(pessoaFormData), atual()));
             }
 
         }
@@ -201,16 +221,16 @@ public class PessoaController extends Controller {
             Pessoa pessoa = Ebean.find(Pessoa.class, id);
 
             if (pessoa == null) {
-                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado."));
+                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado.", atual()));
             }
 
             pessoaNome = pessoa.getNome();
 
             Ebean.delete(pessoa);
-            return ok(views.html.mensagens.colaborador.removido.render(pessoaNome));
+            return ok(views.html.mensagens.colaborador.removido.render(pessoaNome, atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.area.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.area.erro.render(e.toString(), atual()));
         }
     }
 
@@ -226,8 +246,7 @@ public class PessoaController extends Controller {
         return ok(
                 list.render(
                         Pessoa.page(page, 16, sortBy, order, filter),
-                        sortBy, order, filter
-                )
+                        sortBy, order, filter, atual())
         );
     }
 }

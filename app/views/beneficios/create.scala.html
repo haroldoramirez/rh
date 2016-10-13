@@ -1,9 +1,9 @@
-@(beneficioForm: play.data.Form[validators.BeneficioFormData])
+@(beneficioForm: play.data.Form[validators.BeneficioFormData])(usuario : Usuario)
 
 @import helper._
 @import bootstrap._
 
-@views.html.main("AdminRH - Cadastro Benefício") {
+@views.html.main("AdminRH - Cadastro Benefício")(usuario)  {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>

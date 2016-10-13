@@ -1,31 +1,54 @@
 package controllers;
 
+import actions.Secured;
 import com.avaje.ebean.Ebean;
 import models.Beneficio;
+import models.Usuario;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Result;
+import play.mvc.Security;
 import validators.BeneficioFormData;
-import views.html.beneficios.list;
+import views.html.beneficios.*;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.Date;
-import java.util.List;
 
+import static play.mvc.Controller.session;
 import static play.mvc.Results.*;
 
+@Security.Authenticated(Secured.class)
 public class BeneficioController {
 
     @Inject
     FormFactory formFactory;
 
     /**
+     * @return a object user authenticated
+     */
+    @Nullable
+    private Usuario atual() {
+        String username = session().get("email");
+
+        try {
+            //retorna o usuário atual que esteja logado no sistema
+            return Ebean.createQuery(Usuario.class, "find usuario where email = :email")
+                    .setParameter("email", username)
+                    .findUnique();
+        } catch (Exception e) {
+            Logger.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * @return object form
      */
     public Result telaNovo() {
         Form<BeneficioFormData> beneficioForm = formFactory.form(BeneficioFormData.class);
-        return ok(views.html.beneficios.create.render(beneficioForm));
+        return ok(views.html.beneficios.create.render(beneficioForm, atual()));
     }
 
     /**
@@ -36,13 +59,13 @@ public class BeneficioController {
             Beneficio beneficio = Ebean.find(Beneficio.class, id);
 
             if (beneficio == null) {
-                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado."));
+                return notFound(views.html.mensagens.area.erro.render("Objeto não encontrado.", atual()));
             }
 
-            return ok(views.html.beneficios.detail.render(beneficio));
+            return ok(views.html.beneficios.detail.render(beneficio, atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.beneficio.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.beneficio.erro.render(e.toString(), atual()));
         }
     }
 
@@ -57,10 +80,10 @@ public class BeneficioController {
             //apos o objeto ser instanciado levamos os dados para o formData e os dados serao carregados no form edit
             Form<BeneficioFormData> formData = formFactory.form(BeneficioFormData.class).fill(beneficioFormData);
 
-            return ok(views.html.beneficios.edit.render(id,formData));
+            return ok(views.html.beneficios.edit.render(id, formData, atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.beneficio.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.beneficio.erro.render(e.toString(), atual()));
         }
 
     }
@@ -77,7 +100,7 @@ public class BeneficioController {
         return ok(
                 list.render(
                         Beneficio.page(page, 16, sortBy, order, filter),
-                        sortBy, order, filter
+                        sortBy, order, filter, atual()
                 )
         );
     }
@@ -93,18 +116,18 @@ public class BeneficioController {
 
         //se existir erros nos campos do formulario retorne os erros
         if (formData.hasErrors()) {
-            return badRequest(views.html.beneficios.create.render(formData));
+            return badRequest(views.html.beneficios.create.render(formData, atual()));
         } else {
             try {
                 //Converte os dados do formulario para uma instancia a ser salva na base de dados
                 Beneficio beneficio = Beneficio.makeInstance(formData.get());
                 beneficio.setDataCadastro(new Date());
                 beneficio.save();
-                return created(views.html.mensagens.beneficio.cadastrado.render(beneficio.getNome()));
+                return created(views.html.mensagens.beneficio.cadastrado.render(beneficio.getNome(), atual()));
             } catch (Exception e) {
                 Logger.error(e.toString());
                 formData.reject(e.toString());
-                return badRequest(views.html.beneficios.create.render(formData));
+                return badRequest(views.html.beneficios.create.render(formData, atual()));
             }
         }
 
@@ -122,13 +145,13 @@ public class BeneficioController {
 
         //verificar se tem erros no formData, caso tiver retornar o formulario com os erros e caso não tiver continua o processo de alteracao
         if (formData.hasErrors()) {
-            return badRequest(views.html.beneficios.edit.render(id,formData));
+            return badRequest(views.html.beneficios.edit.render(id,formData, atual()));
         } else {
             try {
                 Beneficio beneficioBusca = Ebean.find(Beneficio.class, id);
 
                 if (beneficioBusca == null) {
-                    return notFound(views.html.mensagens.beneficio.erro.render("Objeto não encontrado."));
+                    return notFound(views.html.mensagens.beneficio.erro.render("Objeto não encontrado.", atual()));
                 }
 
                 //Converte os dados do formulario para uma instancia
@@ -137,10 +160,10 @@ public class BeneficioController {
                 beneficio.setId(id);
                 beneficio.setDataAlteracao(new Date());
                 beneficio.update();
-                return ok(views.html.mensagens.beneficio.alterado.render(beneficio.getNome()));
+                return ok(views.html.mensagens.beneficio.alterado.render(beneficio.getNome(), atual()));
             } catch (Exception e) {
                 Logger.error(e.toString());
-                return badRequest(views.html.mensagens.beneficio.erro.render(e.toString()));
+                return badRequest(views.html.mensagens.beneficio.erro.render(e.toString(), atual()));
             }
         }
 
@@ -161,16 +184,16 @@ public class BeneficioController {
             Beneficio beneficio = Ebean.find(Beneficio.class, id);
 
             if (beneficio == null) {
-                return notFound(views.html.mensagens.beneficio.erro.render("Objeto não encontrado."));
+                return notFound(views.html.mensagens.beneficio.erro.render("Objeto não encontrado.", atual()));
             }
 
             beneficioNome = beneficio.getNome();
 
             Ebean.delete(beneficio);
-            return ok(views.html.mensagens.beneficio.removido.render(beneficioNome));
+            return ok(views.html.mensagens.beneficio.removido.render(beneficioNome, atual()));
         } catch (Exception e) {
             Logger.error(e.toString());
-            return badRequest(views.html.mensagens.beneficio.erro.render(e.toString()));
+            return badRequest(views.html.mensagens.beneficio.erro.render(e.toString(), atual()));
         }
     }
 }

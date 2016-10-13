@@ -1,8 +1,7 @@
-@(beneficio: Beneficio)
-
+@(beneficio: Beneficio)(usuario : Usuario)
 @import helper._
 
-@views.html.main("AdminRH - Detalhe Benefício") {
+@views.html.main("AdminRH - Detalhe Benefício")(usuario) {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>

@@ -4,7 +4,7 @@
 * two arguments, a `String` for the title of the page and an `Html`
 * object to insert into the body of the page.
 *@
-@(title: String)(content: Html)
+@(title: String)(usuario : Usuario)(content: Html)
 
 <!DOCTYPE html>
 <html>
@@ -54,7 +54,7 @@
         <div class="wrapper">
             <header class="main-header">
                     <!-- Logo -->
-                <a href="/" class="logo">
+                <a href="@routes.HomeController.inicio" class="logo">
                         <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>R</b>H</span>
                         <!-- logo for regular state and mobile devices -->
@@ -63,7 +63,7 @@
                     <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
                         <!-- Sidebar toggle button-->
-                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <a href="" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                         <span class="sr-only">Toggle navigation</span>
                     </a>
 
@@ -71,9 +71,9 @@
                         <ul class="nav navbar-nav">
                                 <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <img src="@routes.Assets.versioned("images/octocat.png")" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Administrador</span>
+                                    <span class="hidden-xs">@usuario.getEmail</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                         <!-- User image -->
@@ -81,17 +81,17 @@
                                         <img src="@routes.Assets.versioned("images/octocat.png")" class="user-image" alt="User Image">
 
                                         <p>
-                                            Administrador
-                                            <small>Member since Aug. 2016</small>
+                                            @usuario.getEmail
+                                            <small>Membro desde @usuario.getDataCadastro.format("MMMM YYYY")</small>
                                         </p>
                                     </li>
                                         <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                            <a href="" class="btn btn-default btn-flat">Perfil</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="@routes.LoginController.logout" class="btn btn-default btn-flat">Sair</a>
                                         </div>
                                     </li>
                                 </ul>

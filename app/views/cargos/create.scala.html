@@ -1,9 +1,10 @@
-@(cargoForm: play.data.Form[validators.CargoFormData])
+@(cargoForm: play.data.Form[validators.CargoFormData])(usuario : Usuario)
+
 
 @import helper._
 @import bootstrap._
 
-@views.html.main("AdminRH - Cadastro Cargo") {
+@views.html.main("AdminRH - Cadastro Cargo")(usuario) {
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>

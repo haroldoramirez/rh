@@ -1,4 +1,4 @@
-@(currentPage: com.avaje.ebean.PagedList[Cargo], currentSortBy: String, currentOrder: String, currentFilter: String)
+@(currentPage: com.avaje.ebean.PagedList[Cargo], currentSortBy: String, currentOrder: String, currentFilter: String)(usuario : Usuario)
 
 @****************************************
 * Helper generating navigation links    *
@@ -35,7 +35,7 @@
     </th>
 }
 
-@views.html.main("AdminRH - Cargos") {
+@views.html.main("AdminRH - Cargos")(usuario) {
         <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
